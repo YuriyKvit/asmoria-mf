@@ -1,0 +1,11 @@
+#asmo-register .modal-content .form-control{
+    width: 90%;
+    float: right;
+
+}
+#asmo-register .modal-content{
+    width: 110%;
+}
+#asmo-register .form-group{
+    display: inline;
+}

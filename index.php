@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <!-- Bootstrap -->
     <link href="style/css/bootstrap.min.css" rel="stylesheet">
+    <link href="style/css/custom.css" rel="stylesheet">
     <title>Profiler</title>
 </head>
 <body>
@@ -76,7 +77,7 @@
                 porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut
                 fermentum massa justo sit amet risus.</p>
 
-            <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+            <p><button type="button" class="btn btn-default">View details &raquo;</button></p>
         </div>
     </div>
 
@@ -87,7 +88,7 @@
     </footer>
 </div>
 <!-- /container -->
-<!-- Modal -->
+<!-- Modal registration step 1 -->
 <div class="modal fade" id="asmo-register" tabindex="-1" role="dialog" aria-labelledby="asmo-register" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -96,23 +97,23 @@
                 <h4 class="modal-title" id="myModalLabel">Registration form</h4>
             </div>
             <div class="modal-body">
-                <form class="form-horizontal" id="register_main" action="register.php" method="post">
+                <form class="form-horizontal" name="register_main" enctype="multipart/form-data" id="register_main" action="register.php" method="post" onsubmit="ajaxSubmit_c()">
                     <div class="form-group">
-                        <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
-                        <div class="col-sm-10">
-                            <input type="email" class="form-control" id="inputEmail3" placeholder="Email" required>
+                        <label for="inputEmail3" class="col-sm-3 control-label">Email</label>
+                        <div class="col-sm-9">
+                            <input type="email" name="mail" class="form-control" id="inputEmail3" placeholder="Email" required>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="inputLogin" class="col-sm-2 control-label">Login</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="inputLogin" placeholder="Login" required>
+                        <label for="inputPassword3" class="col-sm-3 control-label">Password</label>
+                        <div class="col-sm-9">
+                            <input type="password" name="pass" class="form-control" id="inputPassword3" placeholder="Password" required>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
-                        <div class="col-sm-10">
-                            <input type="password" class="form-control" id="inputPassword3" placeholder="Password" required>
+                        <label for="inputConfPassword3" class="col-sm-3 control-label">Confirm password</label>
+                        <div class="col-sm-9">
+                            <input type="password" name="conf_pass" class="form-control" id="inputConfPassword3" placeholder="Confirm password" required>
                         </div>
                     </div>
                 </form>
@@ -126,5 +127,6 @@
 </div>
 <script src="style/js/jquery-1.11.2.min.js"></script>
 <script src="style/js/bootstrap.min.js"></script>
+<script src="style/js/custom.js"></script>
 </body>
 </html>
