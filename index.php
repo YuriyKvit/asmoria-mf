@@ -1,12 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <!-- Bootstrap -->
-    <link href="style/css/bootstrap.min.css" rel="stylesheet">
-    <link href="style/css/custom.css" rel="stylesheet">
-    <title>Profiler</title>
-</head>
+<?php
+
+require_once('./conf/conf.php');
+require_once('./conf/router.php');
+ini_set('display_errors', 1);
+define('ROOT', dirname(__FILE__));
+$route = Routing::getInstance();
+$route->run();
+?>
+
 <body>
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
@@ -97,7 +98,7 @@
                 <h4 class="modal-title" id="myModalLabel">Registration form</h4>
             </div>
             <div class="modal-body">
-                <form class="form-horizontal" name="register_main" enctype="multipart/form-data" id="register_main" action="register.php" method="post" onsubmit="ajaxSubmit_c()">
+                <form class="form-horizontal" name="register_main" enctype="multipart/form-data" id="register_main" action="modules/profiler/register" method="post" onsubmit="ajaxSubmit_c()">
                     <div class="form-group">
                         <label for="inputEmail3" class="col-sm-3 control-label">Email</label>
                         <div class="col-sm-9">
@@ -120,13 +121,11 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <input type="submit" class="btn btn-primary" form="register_main" value="Register">
+                <input type="submit" id="success" class="btn btn-primary" form="register_main" value="Register">
             </div>
         </div>
     </div>
 </div>
-<script src="style/js/jquery-1.11.2.min.js"></script>
-<script src="style/js/bootstrap.min.js"></script>
-<script src="style/js/custom.js"></script>
+
 </body>
 </html>

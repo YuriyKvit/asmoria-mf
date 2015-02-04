@@ -12,10 +12,14 @@ function ajaxSubmit_c(){
         contentType: false,
         processData: false,
         success: function(sResponce){
-            console.log(sResponce);
-            $('.modal-body').html(sResponce)
+            $('.modal-body').html(sResponce);
+            $('#success').hide();
         }
 
     });
 
 }
+$(document).ready(function(){
+
+
+});
