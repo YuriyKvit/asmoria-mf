@@ -1,11 +1,7 @@
 <?php
 
 require_once('./conf/conf.php');
-require_once('./conf/router.php');
-ini_set('display_errors', 1);
 define('ROOT', dirname(__FILE__));
-$route = Routing::getInstance();
-$route->run();
 ?>
 
 <body>
@@ -21,16 +17,20 @@ $route->run();
             </button>
             <a class="navbar-brand" href="#"><b>Asmoria</b></a>
         </div>
-        <div id="navbar" class="navbar-collapse collapse">
-            <form class="navbar-form navbar-right">
+        <div id="navbar" class="navbar-collapse collapse auth">
+            <div class="navbar-right"></div>
+            <form class="navbar-form navbar-right auth_form" target="_self" name="auth_main" method="post"
+                  action="modules/profiler/auth" enctype="multipart/form-data" onsubmit="ajaxSubmit_c('auth')">
                 <div class="form-group">
-                    <input type="text" placeholder="Email" class="form-control">
+                    <input type="text" name="a_email" placeholder="Email" class="form-control">
                 </div>
                 <div class="form-group">
-                    <input type="password" placeholder="Password" class="form-control">
+                    <input type="password" name="a_pass" placeholder="Password" class="form-control">
                 </div>
                 <button type="submit" class="btn btn-success">Sign in</button>
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#asmo-register">Registration</button>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#asmo-register">
+                    Registration
+                </button>
             </form>
         </div>
         <!--/.navbar-collapse -->
@@ -78,7 +78,9 @@ $route->run();
                 porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut
                 fermentum massa justo sit amet risus.</p>
 
-            <p><button type="button" class="btn btn-default">View details &raquo;</button></p>
+            <p>
+                <button type="button" class="btn btn-default">View details &raquo;</button>
+            </p>
         </div>
     </div>
 
@@ -90,31 +92,40 @@ $route->run();
 </div>
 <!-- /container -->
 <!-- Modal registration step 1 -->
-<div class="modal fade" id="asmo-register" tabindex="-1" role="dialog" aria-labelledby="asmo-register" aria-hidden="true">
+<div class="modal fade" id="asmo-register" tabindex="-1" role="dialog" aria-labelledby="asmo-register"
+     aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="myModalLabel">Registration form</h4>
             </div>
             <div class="modal-body">
-                <form class="form-horizontal" name="register_main" enctype="multipart/form-data" id="register_main" action="modules/profiler/register" method="post" onsubmit="ajaxSubmit_c()">
+                <form class="form-horizontal" name="register_main" enctype="multipart/form-data" id="register_main"
+                      action="" method="post" onsubmit="ajaxSubmit_c('register')">
                     <div class="form-group">
                         <label for="inputEmail3" class="col-sm-3 control-label">Email</label>
+
                         <div class="col-sm-9">
-                            <input type="email" name="mail" class="form-control" id="inputEmail3" placeholder="Email" required>
+                            <input type="email" name="mail" class="form-control" id="inputEmail3" placeholder="Email"
+                                   required>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="inputPassword3" class="col-sm-3 control-label">Password</label>
+
                         <div class="col-sm-9">
-                            <input type="password" name="pass" class="form-control" id="inputPassword3" placeholder="Password" required>
+                            <input type="password" name="pass" class="form-control" id="inputPassword3"
+                                   placeholder="Password" required>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="inputConfPassword3" class="col-sm-3 control-label">Confirm password</label>
+
                         <div class="col-sm-9">
-                            <input type="password" name="conf_pass" class="form-control" id="inputConfPassword3" placeholder="Confirm password" required>
+                            <input type="password" name="conf_pass" class="form-control" id="inputConfPassword3"
+                                   placeholder="Confirm password" required>
                         </div>
                     </div>
                 </form>

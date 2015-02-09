@@ -11,20 +11,26 @@ ini_set('memory_limit', '-1');
  *
  *
  */
-
+session_start();
 require_once('router.php');
+$route = Routing::getInstance();
+$route->run();
 ini_set('display_errors', 1);
 
-class Configuration{
+class Configuration
+{
     var $dbName;
     var $dbUser;
     var $dbPass;
     var $connection;
     static $_instance;
 
-    private function __Clone(){}
+    private function __Clone()
+    {
+    }
 
-    private function Configuration (){
+    private function Configuration()
+    {
 
         $this->dbName = "asmoria";
         $this->dbUser = "root";
@@ -38,20 +44,24 @@ class Configuration{
             print "Error!: " . $e->getMessage() . "<br/>";
             die();
         }
-}
-    public  function getInstance(){
+    }
+
+    public function getInstance()
+    {
         if (!(self::$_instance instanceof self)) {
             self::$_instance = new self();
         }
         return self::$_instance;
     }
 
-    public function insert($sql) {
+    public function insert($sql)
+    {
         $sql_ = $this->connection->prepare($sql);
         return $sql_->execute();
     }
 
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
