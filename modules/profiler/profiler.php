@@ -29,6 +29,46 @@ class Profiler
     {
         $result = "";
         if (!empty($_POST['mail']) && !empty($_POST['pass'])) {
+            $email = $_POST['mail'];
+            $pass = $_POST['pass'];
+
+            $passlen = strlen($pass);
+            $emaillen = strlen($email);
+            $max = 255;
+            $minpass = 2;
+            $minemail = 3;
+
+            if($passlen < $minpass){
+                $errors[] = "pass must be at least 2 characters";
+            } elseif($passlen > $max){
+                $errors[] = "pass must be less than 255 characters";
+            }
+
+            if($emaillen < $minemail){
+                $errors[] = "email must be at least 3 characters";
+            } elseif($emaillen > $max){
+                $errors[] = "email must be less than 255 characters";
+            }
+
+            if(empty($pass)){
+                $errors[] = "pass is required";
+            }
+
+            if(empty($email)){
+                $errors[] = "email cannot be left empty";
+            }
+
+            if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
+                $errors[] = "invalid email";
+            }
+            if (!empty($errors)) {
+                echo "<ul>";
+                foreach ($errors as $error) {
+                    echo "<li>$error</li>";
+                }
+                echo "</ul>";
+                exit;
+            }
             $db = Configuration::getInstance();
             $mail = $_POST['mail'];
             $pass = $_POST['pass'];
@@ -40,7 +80,7 @@ class Profiler
         }
 
         if ($result) {
-            echo "Success!!!";
+            echo "Success";
             exit;
         } else die('Error');
 
@@ -48,9 +88,8 @@ class Profiler
 
     public function actionAuth()
     {
-        // $form = "";
         if (!empty($_SESSION['u_mail']) && !empty($_SESSION['u_id'])) {
-            echo "Hi" . $_SESSION['u_mail'];
+//            echo "Hi" . $_SESSION['u_mail'];
 
 //        $form = <<<EOL
 //Hi  <h1> {$_SESSION['u_mail']} </h1>;
@@ -72,10 +111,15 @@ class Profiler
                 $_SESSION['u_mail'] = $check['mail'];
             }
         }
-//        if($result){echo "Success!!!";exit;}
-//        else {
-//            $form = "Error;";
-//        };
+    }
+
+    public function actionLogout(){
+        session_destroy();
+        header('Location: http://asmoria');
+    }
+
+    public function actionCabinet(){
+
     }
 
     public function getInstance()

@@ -18,7 +18,8 @@ define('ROOT', dirname(__FILE__));
             <a class="navbar-brand" href="#"><b>Asmoria</b></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse auth">
-            <div class="navbar-right"></div>
+            <div class="navbar-right logout-wrap"></div>
+            <?php if(!USER_ID){?>
             <form class="navbar-form navbar-right auth_form" target="_self" name="auth_main" method="post"
                   action="modules/profiler/auth" enctype="multipart/form-data" onsubmit="ajaxSubmit_c('auth')">
                 <div class="form-group">
@@ -32,6 +33,21 @@ define('ROOT', dirname(__FILE__));
                     Registration
                 </button>
             </form>
+            <?php }
+            else{
+            ?>
+                <div class="navbar-right"><a class="btn btn-primary logout" href="modules/profiler/logout">Logout</a>
+                <a href="modules/profiler/cabinet" class="btn btn-success logout"> Cabinet</a>
+
+
+
+                </div>
+
+
+
+
+
+            <?php }?>
         </div>
         <!--/.navbar-collapse -->
     </div>

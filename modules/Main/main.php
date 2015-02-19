@@ -14,8 +14,6 @@ class Main
 
     function actionIndex()
     {
-
-        echo $_SESSION['u_id'];
     }
 
     public function getInstance()

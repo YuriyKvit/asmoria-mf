@@ -16,7 +16,9 @@ require_once('router.php');
 $route = Routing::getInstance();
 $route->run();
 ini_set('display_errors', 1);
-
+if(!empty($_SESSION['u_id']))
+define('USER_ID', $_SESSION['u_id']);
+else define('USER_ID', 0);
 class Configuration
 {
     var $dbName;

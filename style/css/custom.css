@@ -9,3 +9,6 @@
 #asmo-register .form-group{
     display: inline;
 }
+.logout{
+    margin-top: 8px;
+}

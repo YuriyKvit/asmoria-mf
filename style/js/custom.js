@@ -6,6 +6,8 @@ function ajaxSubmit_c(s) {
         case 'register':
             event.preventDefault ? event.preventDefault() : (event.returnValue = false);
             var sUrl_r = '/modules/profiler/register';//$('#register_main').attr('action');
+            var form = document.forms.namedItem("register_main"); //$(document.forms.parentNode).html("register_main");
+            $(form.parentNode).html();
             var oData_r = new FormData(document.forms.namedItem("register_main"));
             $.ajax({
                 url: sUrl_r,
@@ -14,8 +16,12 @@ function ajaxSubmit_c(s) {
                 contentType: false,
                 processData: false,
                 success: function (sResponce) {
+                    if(sResponce == 'Success'){
                     $('.modal-body').html(sResponce);
-                    $('#success').hide();
+                    $('#success').hide();}
+                    else {
+                        $('.modal-body').html(sResponce + $(form.parentNode).html());
+                    }
                 }
 
             });
@@ -33,6 +39,7 @@ function ajaxSubmit_c(s) {
                 success: function (sResponce) {
                     $('.navbar-right').html(sResponce);
                     $('.auth_form').hide();
+                    $('.logout-wrap').html('<div class="navbar-right"><a class="btn btn-primary logout" href="modules/profiler/logout">Logout</a></div>');
                 }
 
             });
