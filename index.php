@@ -1,6 +1,5 @@
-<!DOCTYPE html>
-Hi Jack! <br>
-Hi Bob!
 <?php
-echo "<h3> PHP Here!";
+
+require_once('./conf/conf.php');
+define('ROOT', dirname(__FILE__));
 ?>
