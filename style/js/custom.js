@@ -1,6 +1,14 @@
 /**
  * Created by Asmoria-Y on 20.01.2015.
  */
+
+$(document).ready(function () {
+    //$(document).on('click', '#sbmt', function(){
+    //    alert($('input[name="a_email"]').val());
+    //})
+
+});
+var Form;
 function ajaxSubmit_c(s) {
     switch (s) {
         case 'register':
@@ -28,6 +36,8 @@ function ajaxSubmit_c(s) {
             break;
         case 'auth':
             event.preventDefault ? event.preventDefault() : (event.returnValue = false);
+            Form = $('.logout-wrap').html();
+            console.log(Form);
             var sUrl_a = '/modules/profiler/auth';
             var oData_a = new FormData(document.forms.namedItem("auth_main"));
             $.ajax({
@@ -36,19 +46,23 @@ function ajaxSubmit_c(s) {
                 data: oData_a,
                 contentType: false,
                 processData: false,
+                dataType: 'JSON',
                 success: function (sResponce) {
                     $('.navbar-right').html(sResponce);
+                    if(sResponce.status == 'ok'){
                     $('.auth_form').hide();
-                    $('.logout-wrap').html('<div class="navbar-right"><a class="btn btn-primary logout" href="modules/profiler/logout">Logout</a></div>');
+                    $('.logout-wrap').html(sResponce.content);//('<div class="navbar-right"><a class="btn btn-primary logout" href="modules/profiler/logout">Logout</a></div>');
                 }
-
-            });
+                    else {
+                        //console.log(Form);
+                        $('.auth_form').hide();
+                        $('.logout-wrap').html('<div class = "error-text">Error, try again</div>');
+                        setTimeout("$('.logout-wrap').html(Form);", 3000);
+                        //$('.auth_form').show();
+                    }
+            }});
             break;
         default:
             document.write('Error JS');
     }
 }
-$(document).ready(function () {
-
-
-});

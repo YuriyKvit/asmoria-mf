@@ -9,10 +9,11 @@
 class Profiler
 {
     static $_instance;
+    private $Db;
 
     private function __Construct()
     {
-
+        $this->Db = Configuration::getInstance();
     }
 
     private function __Clone()
@@ -88,12 +89,9 @@ class Profiler
 
     public function actionAuth()
     {
+        $check = array();
         if (!empty($_SESSION['u_mail']) && !empty($_SESSION['u_id'])) {
-//            echo "Hi" . $_SESSION['u_mail'];
 
-//        $form = <<<EOL
-//Hi  <h1> {$_SESSION['u_mail']} </h1>;
-//EOL;
             exit;
         }
         $result = "";
@@ -109,6 +107,14 @@ class Profiler
             if ($check['id'] && empty($_SESSION['u_id'])) {
                 $_SESSION['u_id'] = $check['id'];
                 $_SESSION['u_mail'] = $check['mail'];
+                $result2['status'] = 'ok';
+                $result2['content'] = $db->getLoginBar();
+                echo json_encode($result2);exit;
+            }
+            else{
+                $result2['status'] = 'false';
+                $result2['content'] = "";
+                echo json_encode($result2);exit;
             }
         }
     }
@@ -118,8 +124,22 @@ class Profiler
         header('Location: http://asmoria');
     }
 
-    public function actionCabinet(){
+    public function actionCabinet()
+    {
+        $this->Db->getHeader();
 
+        require_once "view/index.php";
+
+        $this->Db->getFooter();
+        exit;
+    }
+
+    public function  getProfileInfo($id){
+        $id = (int)$id;
+        $sql_ = $this->Db->connection->prepare("SELECT * FROM `profile` WHERE `id` = :id");
+        $sql_->bindValue(':id', $id, PDO::PARAM_INT);
+        $sql_->execute();
+        return $sql_->fetch(PDO::FETCH_ASSOC);
     }
 
     public function getInstance()

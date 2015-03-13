@@ -3,9 +3,10 @@
 class Main
 {
     static $_instance;
-
+    private $Db;
     private function __Construct()
     {
+        $this->Db = Configuration::getInstance();
     }
 
     private function __Clone()
@@ -14,6 +15,9 @@ class Main
 
     function actionIndex()
     {
+        $this->Db->getHeader();
+        require_once "view/index.php";
+        $this->Db->getFooter();
     }
 
     public function getInstance()

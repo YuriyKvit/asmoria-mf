@@ -12,8 +12,8 @@ class Routing
 
     private function __construct()
     {
-
         $this->routes = explode('/', $_SERVER['REQUEST_URI']);
+
         if (count($this->routes) > 4) die('Method was not found!');
         if (!empty($this->routes[1])) {
             $this->module_name = $this->routes[1];
