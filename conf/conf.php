@@ -16,6 +16,7 @@ require_once('router.php');
 $route = Routing::getInstance();
 $route->run();
 ini_set('display_errors', 1);
+
 class Configuration
 {
     var $dbName;
@@ -69,6 +70,14 @@ class Configuration
         return $u_id;
     }
 
+    public function encodePass($pass){
+        $options = [
+            'cost' => 11,
+            'salt' => "546546F.#@&!(&%bcch'>?<54/*-+784$^(YI",
+        ];
+        return password_hash($pass, PASSWORD_BCRYPT, $options);
+    }
+
     public function getLoginBar(){
         if(!$this->getLoggedId()){
             $login_bar = <<<LBR
@@ -90,8 +99,8 @@ LBR;
         }
         else{
             $login_bar = <<<LBR
-<div class="navbar-right"><a class="btn btn-primary logout" href="modules/profiler/logout">Logout</a>
-                    <a href="modules/profiler/cabinet" class="btn btn-success logout"> Cabinet</a>
+<div class="navbar-right"><a class="btn btn-primary logout" href="http://{$_SERVER['HTTP_HOST']}/modules/profiler/logout">Logout</a>
+                    <a href="http://{$_SERVER['HTTP_HOST']}/modules/profiler/cabinet" class="btn btn-success logout"> Cabinet</a>
                 </div>
 LBR;
 
@@ -118,7 +127,7 @@ LBR;
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
-            <a class="navbar-brand" href="http://asmoria"><b>Asmoria</b></a>
+            <a class="navbar-brand" href="http://{$_SERVER['HTTP_HOST']}"><b>Asmoria</b></a>
         </div>
         <ul class="nav navbar-nav">
             <li class="active"><a href="#">Home</a></li>

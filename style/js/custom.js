@@ -3,9 +3,6 @@
  */
 
 $(document).ready(function () {
-    //$(document).on('click', '#sbmt', function(){
-    //    alert($('input[name="a_email"]').val());
-    //})
 
 });
 var Form;
@@ -13,20 +10,23 @@ function ajaxSubmit_c(s) {
     switch (s) {
         case 'register':
             event.preventDefault ? event.preventDefault() : (event.returnValue = false);
-            var sUrl_r = '/modules/profiler/register';//$('#register_main').attr('action');
-            var form = document.forms.namedItem("register_main"); //$(document.forms.parentNode).html("register_main");
+            var sUrl_r = '/modules/profiler/register';
+            var form = document.forms.namedItem("register_main");
             $(form.parentNode).html();
             var oData_r = new FormData(document.forms.namedItem("register_main"));
             $.ajax({
                 url: sUrl_r,
                 type: 'POST',
                 data: oData_r,
+                dataType: 'JSON',
                 contentType: false,
                 processData: false,
                 success: function (sResponce) {
-                    if(sResponce == 'Success'){
-                    $('.modal-body').html(sResponce);
-                    $('#success').hide();}
+                    if (sResponce.status == true) {
+                        $('.modal-body').html(sResponce.content);
+                        $('#success, .auth_form').hide();
+                        $('.logout-wrap').html(sResponce.loginBar);
+                    }
                     else {
                         $('.modal-body').html(sResponce + $(form.parentNode).html());
                     }
@@ -49,18 +49,17 @@ function ajaxSubmit_c(s) {
                 dataType: 'JSON',
                 success: function (sResponce) {
                     $('.navbar-right').html(sResponce);
-                    if(sResponce.status == 'ok'){
-                    $('.auth_form').hide();
-                    $('.logout-wrap').html(sResponce.content);//('<div class="navbar-right"><a class="btn btn-primary logout" href="modules/profiler/logout">Logout</a></div>');
-                }
+                    if (sResponce.status == 'ok') {
+                        $('.auth_form').hide();
+                        $('.logout-wrap').html(sResponce.content);
+                    }
                     else {
-                        //console.log(Form);
                         $('.auth_form').hide();
                         $('.logout-wrap').html('<div class = "error-text">Error, try again</div>');
                         setTimeout("$('.logout-wrap').html(Form);", 3000);
-                        //$('.auth_form').show();
                     }
-            }});
+                }
+            });
             break;
         default:
             document.write('Error JS');

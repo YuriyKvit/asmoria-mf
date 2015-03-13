@@ -14,6 +14,7 @@ class Profiler
     private function __Construct()
     {
         $this->Db = Configuration::getInstance();
+        $this->root_dir = "http://".$_SERVER['HTTP_HOST'];
     }
 
     private function __Clone()
@@ -32,23 +33,28 @@ class Profiler
         if (!empty($_POST['mail']) && !empty($_POST['pass'])) {
             $email = $_POST['mail'];
             $pass = $_POST['pass'];
+            $conf_pass = $_POST['conf_pass'];
 
             $passlen = strlen($pass);
             $emaillen = strlen($email);
             $max = 255;
-            $minpass = 2;
+            $minpass = 6;
             $minemail = 3;
 
             if($passlen < $minpass){
-                $errors[] = "pass must be at least 2 characters";
+                $errors[] = "pass must be at least $minpass characters";
             } elseif($passlen > $max){
-                $errors[] = "pass must be less than 255 characters";
+                $errors[] = "pass must be less than $max characters";
             }
 
             if($emaillen < $minemail){
-                $errors[] = "email must be at least 3 characters";
+                $errors[] = "email must be at least $minemail characters";
             } elseif($emaillen > $max){
-                $errors[] = "email must be less than 255 characters";
+                $errors[] = "email must be less than $max characters";
+            }
+
+            if($pass != $conf_pass){
+                $errors[] = "your passwords do not match";
             }
 
             if(empty($pass)){
@@ -70,18 +76,30 @@ class Profiler
                 echo "</ul>";
                 exit;
             }
-            $db = Configuration::getInstance();
-            $mail = $_POST['mail'];
-            $pass = $_POST['pass'];
-            $sql_ = $db->connection->prepare("INSERT INTO `profile` (`mail`, `pass`)VALUES(:mail, :pass)");
-            $sql_->bindValue(':mail', $mail, PDO::PARAM_STR);
-            $sql_->bindValue(':pass', $pass, PDO::PARAM_STR);
 
-            $result = $sql_->execute();
+
+            $pass = $this->Db->encodePass($pass);
+            $db = Configuration::getInstance();
+
+            $sql_ = $db->connection->prepare("INSERT INTO `profiles` (`mail`, `pass`)VALUES(:mail, :pass)");
+            $sql_->bindValue(':mail', $email, PDO::PARAM_STR);
+            $sql_->bindValue(':pass', $pass, PDO::PARAM_STR);
+            $result['status'] = $sql_->execute();
+            $sql_ = $db->connection->prepare("SELECT * FROM `profiles` WHERE `mail` = :mail AND `pass` = :pass");
+            $sql_->bindValue(':mail', $email, PDO::PARAM_STR);
+            $sql_->bindValue(':pass', $pass, PDO::PARAM_STR);
+            $result['status'] = $sql_->execute();
+            $result['data'] = $sql_->fetch(PDO::FETCH_ASSOC);
         }
 
         if ($result) {
-            echo "Success";
+                if(!isset($_SESSION))
+                    session_start();
+            $_SESSION['u_id'] = $result['data']['id'];
+            $_SESSION['u_mail'] = $result['data']['mail'];
+            $result['loginBar'] = $db->getLoginBar();
+            $result['content'] = "Welcome to aboard";
+            echo json_encode($result);
             exit;
         } else die('Error');
 
@@ -98,8 +116,8 @@ class Profiler
         if (!empty($_POST['a_email']) && !empty($_POST['a_pass'])) {
             $db = Configuration::getInstance();
             $mail = $_POST['a_email'];
-            $pass = $_POST['a_pass'];
-            $sql_ = $db->connection->prepare("SELECT * FROM `profile` WHERE `mail` = :mail AND `pass` = :pass");
+            $pass = $this->Db->encodePass($_POST['a_pass']);
+            $sql_ = $db->connection->prepare("SELECT * FROM `profiles` WHERE `mail` = :mail AND `pass` = :pass");
             $sql_->bindValue(':mail', $mail, PDO::PARAM_STR);
             $sql_->bindValue(':pass', $pass, PDO::PARAM_STR);
             $result = $sql_->execute();
@@ -136,7 +154,7 @@ class Profiler
 
     public function  getProfileInfo($id){
         $id = (int)$id;
-        $sql_ = $this->Db->connection->prepare("SELECT * FROM `profile` WHERE `id` = :id");
+        $sql_ = $this->Db->connection->prepare("SELECT * FROM `profiles` WHERE `id` = :id");
         $sql_->bindValue(':id', $id, PDO::PARAM_INT);
         $sql_->execute();
         return $sql_->fetch(PDO::FETCH_ASSOC);
