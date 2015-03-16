@@ -11,5 +11,4 @@ $data = $view->getProfileInfo($_SESSION['u_id']);
     Your id: <?php echo $data['id']?> <br>
     Your email: <?php echo $data['mail']?><br>
     Your password: <?php echo $data['pass']?><br>
-
-</div>
+   </div>

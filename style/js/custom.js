@@ -22,13 +22,13 @@ function ajaxSubmit_c(s) {
                 contentType: false,
                 processData: false,
                 success: function (sResponce) {
-                    if (sResponce.status == true) {
+                    if (sResponce.status === true) {
                         $('.modal-body').html(sResponce.content);
                         $('#success, .auth_form').hide();
                         $('.logout-wrap').html(sResponce.loginBar);
                     }
                     else {
-                        $('.modal-body').html(sResponce + $(form.parentNode).html());
+                        $('.modal-body').html(sResponce.errors + $(form.parentNode).html());
                     }
                 }
 

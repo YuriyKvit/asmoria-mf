@@ -69,11 +69,13 @@ class Profiler
                 $errors[] = "invalid email";
             }
             if (!empty($errors)) {
-                echo "<ul>";
+//                echo json_encode($errors);
+                $result['errors'] = "<ul>";
                 foreach ($errors as $error) {
-                    echo "<li>$error</li>";
+                    $result['errors'] .= "<li>$error</li>";
                 }
-                echo "</ul>";
+                $result['errors'] .= "</ul>";
+                echo json_encode($result);
                 exit;
             }
 
@@ -97,7 +99,7 @@ class Profiler
                     session_start();
             $_SESSION['u_id'] = $result['data']['id'];
             $_SESSION['u_mail'] = $result['data']['mail'];
-            $result['loginBar'] = $db->getLoginBar();
+            $result['loginBar'] = $this->Db->getLoginBar();
             $result['content'] = "Welcome to aboard";
             echo json_encode($result);
             exit;

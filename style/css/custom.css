@@ -1,25 +1,26 @@
-/*html {height: 100%;}*/
-/*body {*/
-    /*height: auto !important;*/
-    /*min-height: 95%;*/
-    /*position: relative;*/
-/*}*/
-.footer_container {
-    /*padding-bottom: 130px;*/
-}
-.navbar {
+html {height: 100%;}
+body {
+    height: auto !important;
+    min-height: 100% ;
     position: relative;
 }
+
+/*.step2{*/
+    /*display: none;*/
+/*}*/
+
 footer {
-    width: 85%;
+    width: 100%;
     position: absolute;
-    bottom: 0px;
+    bottom: 0;
     right: 0;
     left: 0;
     margin: 0 auto;
-    padding: 10px 0;
+    background-color: #000000;
+    padding: 10px 0 10px 100px;
     border-top: 1px solid #eee;
 }
+
 #asmo-register .modal-content .form-control{
     width: 90%;
     float: right;
@@ -27,9 +28,6 @@ footer {
 }
 #asmo-register .modal-content{
     width: 110%;
-}
-#asmo-register .form-group{
-    display: inline;
 }
 .logout{
     margin-top: 8px;
@@ -43,6 +41,3 @@ footer {
     padding: 0 10px;
     margin-top: 10px;
 }
-/*.footer_container{*/
-    /*position: relative;*/
-/*}*/
