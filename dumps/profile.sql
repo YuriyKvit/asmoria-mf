@@ -19,7 +19,7 @@ SET FOREIGN_KEY_CHECKS=0;
 -- Table structure for `profile`
 -- ----------------------------
 DROP TABLE IF EXISTS `profiles`;
-CREATE TABLE `profile` (
+CREATE TABLE `profiles` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `mail` varchar(255) DEFAULT NULL,
   `pass` varchar(255) DEFAULT NULL,

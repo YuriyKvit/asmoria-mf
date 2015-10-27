@@ -20,7 +20,7 @@ class Main
         $this->Db->getFooter();
     }
 
-    public function getInstance()
+    public static function getInstance()
     {
         if (!(self::$_instance instanceof self)) {
             self::$_instance = new self();

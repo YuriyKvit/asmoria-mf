@@ -46,7 +46,7 @@ class Configuration
         }
     }
 
-    public function getInstance()
+    public static function getInstance()
     {
         if (!(self::$_instance instanceof self)) {
             self::$_instance = new self();
@@ -70,7 +70,8 @@ class Configuration
         return $u_id;
     }
 
-    public function encodePass($pass){
+    public function encodePass($pass)
+    {
         $options = [
             'cost' => 11,
             'salt' => "546546F.#@&!(&%bcch'>?<54/*-+784$^(YI",
@@ -78,8 +79,9 @@ class Configuration
         return password_hash($pass, PASSWORD_BCRYPT, $options);
     }
 
-    public function getLoginBar(){
-        if(!$this->getLoggedId()){
+    public function getLoginBar()
+    {
+        if (!$this->getLoggedId()) {
             $login_bar = <<<LBR
 <form class="navbar-form navbar-right auth_form" target="_self" name="auth_main" method="post"
                       action="" enctype="multipart/form-data" onsubmit="ajaxSubmit_c('auth')">
@@ -96,8 +98,7 @@ class Configuration
                 </form>;
 LBR;
 
-        }
-        else{
+        } else {
             $login_bar = <<<LBR
 <div class="navbar-right"><a class="btn btn-primary logout" href="http://{$_SERVER['HTTP_HOST']}/modules/profiler/logout">Logout</a>
                     <a href="http://{$_SERVER['HTTP_HOST']}/modules/profiler/cabinet" class="btn btn-success logout"> Cabinet</a>
@@ -108,7 +109,8 @@ LBR;
         return $login_bar;
     }
 
-    public  function getHeader(){
+    public function getHeader()
+    {
 
         $header = <<<EOL
 <!DOCTYPE html>

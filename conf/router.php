@@ -56,7 +56,7 @@ class Routing
         } else die('No such action!');
     }
 
-    public function getInstance()
+    public static function getInstance()
     {
         if (!(self::$_instance instanceof self)) {
             self::$_instance = new self();
