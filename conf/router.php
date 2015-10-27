@@ -2,7 +2,7 @@
 
 class Routing
 {
-    private $default_controller = 'main';
+    private $default_controller = 'Main';
     private $default_module = 'main';
     private $default_action = 'Index';
     private $parameters;
@@ -25,7 +25,7 @@ class Routing
         if (!empty($this->routes[2])) {
             $this->controller_name = $this->routes[2];
         } else {
-            $this->controller_name = $this->controller_prefix.$this->default_controller;
+            $this->controller_name = $this->default_controller;
         }
 
         if (!empty($this->routes[3])) {
@@ -46,8 +46,8 @@ class Routing
 
     function run()
     {
-        $controller_file = ucfirst($this->controller_name).$this->controller_prefix . '.php';
-        $controller_path = "modules/".$this->module_name . "/" . $controller_file;
+        $controller_file = ucfirst($this->controller_name) . $this->controller_prefix . '.php';
+        $controller_path = "modules/" . $this->module_name . "/" . $controller_file;
 
         if (file_exists($controller_path)) include_once $controller_path;
         else die('No such file!');
@@ -56,20 +56,21 @@ class Routing
         $controller = $f::getInstance();
 
         $action = $this->action_prefix . ucfirst($this->action_name);
-        try
-        {
+        try {
             if (method_exists($controller, $action)) {
-
-                $controller->$action();
-
-            }
-            else {
+                parse_str($this->parameters, $params);
+                $_GET = $params;
+                $_GET['q'] = $this->module_name . '/' . $this->controller_name . '/' . $action;
+                call_user_func_array(array($controller, $action), array_values($params));
+            } else {
                 $action = $this->action_prefix . $this->default_action;
-                $controller->$action();
+                $this->parameters = $this->routes[3];
+                parse_str($this->parameters, $params);
+                $_GET = $params;
+                $_GET['q'] = $this->module_name . '/' . $this->controller_name . '/' . $action;
+                call_user_func_array(array($controller, $action), array_values($params));
             }
-        }
-        catch (Exception $e)
-        {
+        } catch (Exception $e) {
             die("Action not found");
         }
         exit;

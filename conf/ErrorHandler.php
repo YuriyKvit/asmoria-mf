@@ -8,7 +8,7 @@
  */
 
 
-class errorHandler
+class ErrorHandler
 {
 
 }

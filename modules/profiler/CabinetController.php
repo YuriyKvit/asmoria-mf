@@ -22,10 +22,17 @@ class Cabinet
 
     }
 
+
     public function actionIndex()
     {
-        echo "Home";
+        $this->Db->getHeader();
+
+        require_once "view/index.php";
+
+        $this->Db->getFooter();
+        exit;
     }
+
 
     public function test()
     {
@@ -147,16 +154,6 @@ class Cabinet
     public function actionLogout(){
         session_destroy();
         header('Location: '.ROOT_URL);
-    }
-
-    public function actionCabinet()
-    {
-        $this->Db->getHeader();
-
-        require_once "view/index.php";
-
-        $this->Db->getFooter();
-        exit;
     }
 
     public function  getProfileInfo($id){
