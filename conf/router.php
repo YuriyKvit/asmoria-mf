@@ -2,10 +2,11 @@
 
 class Routing
 {
-    private $default_controller = 'Main';
-    private $default_module = 'modules';
-    private $default_action = 'index';
-    private $controller_prefix = 'Controller_';
+    private $default_controller = 'main';
+    private $default_module = 'main';
+    private $default_action = 'Index';
+    private $parameters;
+    private $controller_prefix = 'Controller';
     private $action_prefix = 'action';
     private $model_prefix = 'Model_';
     static $_instance;
@@ -14,7 +15,7 @@ class Routing
     {
         $this->routes = explode('/', $_SERVER['REQUEST_URI']);
 
-        if (count($this->routes) > 4) die('Method was not found!');
+        if (count($this->routes) > 5) die('Method was not found!');
         if (!empty($this->routes[1])) {
             $this->module_name = $this->routes[1];
         } else {
@@ -24,7 +25,7 @@ class Routing
         if (!empty($this->routes[2])) {
             $this->controller_name = $this->routes[2];
         } else {
-            $this->controller_name = $this->default_controller;
+            $this->controller_name = $this->controller_prefix.$this->default_controller;
         }
 
         if (!empty($this->routes[3])) {
@@ -33,27 +34,45 @@ class Routing
             $this->action_name = $this->default_action;
         }
 
+        if (!empty($this->routes[4])) {
+            $this->parameters = $this->routes[4];
+        } else {
+            $this->parameters = "";
+        }
+
         $this->run();
 
     }
 
     function run()
     {
-        $model_file = strtolower($this->controller_name) . '.php';
-        $model_path = $this->module_name . "/" . $this->controller_name . "/" . $model_file;
+        $controller_file = ucfirst($this->controller_name).$this->controller_prefix . '.php';
+        $controller_path = "modules/".$this->module_name . "/" . $controller_file;
 
-        if (file_exists($model_path)) include_once $model_path;//"modules/" . $this->module_name ."/" .$model_file;
+        if (file_exists($controller_path)) include_once $controller_path;
         else die('No such file!');
         $f = $this->controller_name;
+
         $controller = $f::getInstance();
 
-        $action = $this->action_prefix . $this->action_name;
+        $action = $this->action_prefix . ucfirst($this->action_name);
+        try
+        {
+            if (method_exists($controller, $action)) {
 
-        if (method_exists($controller, $action)) {
+                $controller->$action();
 
-            $controller->$action();
-
-        } else die('No such action!');
+            }
+            else {
+                $action = $this->action_prefix . $this->default_action;
+                $controller->$action();
+            }
+        }
+        catch (Exception $e)
+        {
+            die("Action not found");
+        }
+        exit;
     }
 
     public static function getInstance()

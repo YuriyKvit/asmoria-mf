@@ -1,5 +1,5 @@
-<?php include_once $_SERVER['DOCUMENT_ROOT'] . "/modules/profiler/profiler.php";
-$view = Profiler::getInstance();
+<?php include_once $_SERVER['DOCUMENT_ROOT'] . "/modules/profiler/CabinetController.php";
+$view = Cabinet::getInstance();
 $data = $view->getProfileInfo($_SESSION['u_id']);
 //echo "<pre>";
 //echo var_dump($data);exit;

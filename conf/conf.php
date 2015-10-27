@@ -100,8 +100,8 @@ LBR;
 
         } else {
             $login_bar = <<<LBR
-<div class="navbar-right"><a class="btn btn-primary logout" href="http://{$_SERVER['HTTP_HOST']}/modules/profiler/logout">Logout</a>
-                    <a href="http://{$_SERVER['HTTP_HOST']}/modules/profiler/cabinet" class="btn btn-success logout"> Cabinet</a>
+<div class="navbar-right"><a class="btn btn-primary logout" href="http://{$_SERVER['HTTP_HOST']}/profiler/logout">Logout</a>
+                    <a href="http://{$_SERVER['HTTP_HOST']}/profiler/cabinet" class="btn btn-success logout"> Cabinet</a>
                 </div>
 LBR;
 

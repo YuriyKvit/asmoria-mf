@@ -6,7 +6,7 @@
  * Date: 20.01.2015
  * Time: 21:20
  */
-class Profiler
+class Cabinet
 {
     static $_instance;
     private $Db;
@@ -20,6 +20,11 @@ class Profiler
     private function __Clone()
     {
 
+    }
+
+    public function actionIndex()
+    {
+        echo "Home";
     }
 
     public function test()
@@ -141,7 +146,7 @@ class Profiler
 
     public function actionLogout(){
         session_destroy();
-        header('Location: http://asmoria');
+        header('Location: '.ROOT_URL);
     }
 
     public function actionCabinet()
