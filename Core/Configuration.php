@@ -1,5 +1,5 @@
 <?php
-ini_set('memory_limit', '-1');
+
 /**
  * Created by PhpStorm.
  * User: Asmoria-Y
@@ -8,14 +8,16 @@ ini_set('memory_limit', '-1');
  *
  * Here will be connect to database and other configurations
  *
- *
- *
  */
+
+namespace Core;
+
+use Core\Route;
+
+ini_set('memory_limit', '-1');
+
 session_start();
-require_once('router.php');
-$route = Routing::getInstance();
-$route->run();
-ini_set('display_errors', 1);
+//require_once('Route.php');
 
 class Configuration
 {
@@ -29,7 +31,7 @@ class Configuration
     {
     }
 
-    private function Configuration()
+    private function __construct()
     {
 
         $this->dbName = "asmoria";
@@ -38,9 +40,9 @@ class Configuration
         $this->connection = '';
         ini_set('memory_limit', '128M');
         try {
-            $this->connection = new PDO('mysql:host=localhost;dbname=' . $this->dbName, $this->dbUser, $this->dbPass, array(PDO::ATTR_PERSISTENT => true));
+            $this->connection = new \PDO('mysql:host=localhost;dbname=' . $this->dbName, $this->dbUser, $this->dbPass, array(\PDO::ATTR_PERSISTENT => true));
 
-        } catch (PDOException $e) {
+        } catch (\PDOException $e) {
             print "Error!: " . $e->getMessage() . "<br/>";
             die();
         }
