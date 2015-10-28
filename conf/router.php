@@ -3,7 +3,7 @@
 class Routing
 {
     private $default_controller = 'Main';
-    private $default_module = 'main';
+    private $default_module = 'Main';
     private $default_action = 'Index';
     private $parameters;
     private $controller_prefix = 'Controller';
@@ -23,9 +23,9 @@ class Routing
         }
 
         if (!empty($this->routes[2])) {
-            $this->controller_name = $this->routes[2];
+            $this->controller_name = $this->routes[2].$this->controller_prefix;
         } else {
-            $this->controller_name = $this->default_controller;
+            $this->controller_name = $this->default_controller.$this->controller_prefix;
         }
 
         if (!empty($this->routes[3])) {
@@ -46,9 +46,8 @@ class Routing
 
     function run()
     {
-        $controller_file = ucfirst($this->controller_name) . $this->controller_prefix . '.php';
+        $controller_file = ucfirst($this->controller_name) . '.php';
         $controller_path = "modules/" . $this->module_name . "/" . $controller_file;
-
         if (file_exists($controller_path)) include_once $controller_path;
         else die('No such file!');
         $f = $this->controller_name;

@@ -8,7 +8,7 @@
  */
 
 
-class ErrorHandler
+class HandlerController
 {
 
 }

@@ -6,7 +6,7 @@
  * Date: 20.01.2015
  * Time: 21:20
  */
-class Cabinet
+class CabinetController
 {
     static $_instance;
     private $Db;
@@ -34,9 +34,9 @@ class Cabinet
     }
 
 
-    public function test()
+    public function actionTest()
     {
-        return 6;
+//        echo $hjh;exit;
     }
 
     public function actionRegister()

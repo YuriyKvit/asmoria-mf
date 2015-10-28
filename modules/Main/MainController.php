@@ -1,6 +1,6 @@
 <?php
 
-class Main
+class MainController
 {
     static $_instance;
     private $Db;
