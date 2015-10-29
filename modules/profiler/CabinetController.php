@@ -1,5 +1,10 @@
 <?php
 
+namespace Modules;
+
+use Core\Configuration as Configuration;
+use Modules\HandlerController as Handler;
+use Core\Route;
 /**
  * Created by PhpStorm.
  * User: Asmoria-Y
@@ -36,6 +41,7 @@ class CabinetController
 
     public function actionTest()
     {
+        Handler::test();
 //        echo $hjh;exit;
     }
 
@@ -96,14 +102,14 @@ class CabinetController
             $db = Configuration::getInstance();
 
             $sql_ = $db->connection->prepare("INSERT INTO `profiles` (`mail`, `pass`)VALUES(:mail, :pass)");
-            $sql_->bindValue(':mail', $email, PDO::PARAM_STR);
-            $sql_->bindValue(':pass', $pass, PDO::PARAM_STR);
+            $sql_->bindValue(':mail', $email, \PDO::PARAM_STR);
+            $sql_->bindValue(':pass', $pass, \PDO::PARAM_STR);
             $result['status'] = $sql_->execute();
             $sql_ = $db->connection->prepare("SELECT * FROM `profiles` WHERE `mail` = :mail AND `pass` = :pass");
-            $sql_->bindValue(':mail', $email, PDO::PARAM_STR);
-            $sql_->bindValue(':pass', $pass, PDO::PARAM_STR);
+            $sql_->bindValue(':mail', $email, \PDO::PARAM_STR);
+            $sql_->bindValue(':pass', $pass, \PDO::PARAM_STR);
             $result['status'] = $sql_->execute();
-            $result['data'] = $sql_->fetch(PDO::FETCH_ASSOC);
+            $result['data'] = $sql_->fetch(\PDO::FETCH_ASSOC);
         }
 
         if ($result) {
@@ -132,10 +138,10 @@ class CabinetController
             $mail = $_POST['a_email'];
             $pass = $this->Db->encodePass($_POST['a_pass']);
             $sql_ = $db->connection->prepare("SELECT * FROM `profiles` WHERE `mail` = :mail AND `pass` = :pass");
-            $sql_->bindValue(':mail', $mail, PDO::PARAM_STR);
-            $sql_->bindValue(':pass', $pass, PDO::PARAM_STR);
+            $sql_->bindValue(':mail', $mail, \PDO::PARAM_STR);
+            $sql_->bindValue(':pass', $pass, \PDO::PARAM_STR);
             $result = $sql_->execute();
-            $check = $sql_->fetch(PDO::FETCH_ASSOC);
+            $check = $sql_->fetch(\PDO::FETCH_ASSOC);
             if ($check['id'] && empty($_SESSION['u_id'])) {
                 $_SESSION['u_id'] = $check['id'];
                 $_SESSION['u_mail'] = $check['mail'];
@@ -159,9 +165,9 @@ class CabinetController
     public function  getProfileInfo($id){
         $id = (int)$id;
         $sql_ = $this->Db->connection->prepare("SELECT * FROM `profiles` WHERE `id` = :id");
-        $sql_->bindValue(':id', $id, PDO::PARAM_INT);
+        $sql_->bindValue(':id', $id, \PDO::PARAM_INT);
         $sql_->execute();
-        return $sql_->fetch(PDO::FETCH_ASSOC);
+        return $sql_->fetch(\PDO::FETCH_ASSOC);
     }
 
     public static function getInstance()

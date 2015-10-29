@@ -1,4 +1,4 @@
-<?php include_once $_SERVER['DOCUMENT_ROOT'] . "/modules/profiler/CabinetController.php";
+<?php include_once $_SERVER['DOCUMENT_ROOT'] . "/Modules/profiler/CabinetController.php";
 $view = CabinetController::getInstance();
 $data = $view->getProfileInfo($_SESSION['u_id']);
 

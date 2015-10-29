@@ -1,18 +1,29 @@
 <?php
 
+//namespace Modules;
+
+//use Core\Route;
+//use Core\Configuration;
+
+
 class MainController
 {
     static $_instance;
     private $Db;
     private function __Construct()
     {
-        $this->Db = Configuration::getInstance();
+        $this->Db = Core\Configuration::getInstance();
     }
 
     private function __Clone()
     {
+
     }
 
+
+    function test(){
+        echo "777";exit;
+    }
     function actionIndex()
     {
         $this->Db->getHeader();
