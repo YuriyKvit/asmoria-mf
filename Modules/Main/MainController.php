@@ -1,18 +1,17 @@
 <?php
 
-//namespace Modules;
+namespace Asmoria\Modules\Main;
 
-//use Core\Route;
-//use Core\Configuration;
-
+use \Asmoria\Core\Route;
+use \Asmoria\Core\Configuration;
 
 class MainController
 {
     static $_instance;
     private $Db;
-    private function __Construct()
+    public function __Construct()
     {
-        $this->Db = Core\Configuration::getInstance();
+        $this->Db = Configuration::getInstance();
     }
 
     private function __Clone()
@@ -39,5 +38,3 @@ class MainController
         return self::$_instance;
     }
 }
-
-?>

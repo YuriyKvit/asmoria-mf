@@ -10,14 +10,13 @@
  *
  */
 
-namespace Core;
+namespace Asmoria\Core;
 
-use Core\Route;
+use \Asmoria\Core\Route;
 
 ini_set('memory_limit', '-1');
 
 session_start();
-//require_once('Route.php');
 
 class Configuration
 {

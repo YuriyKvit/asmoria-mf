@@ -6,8 +6,8 @@
  * Date: 27.10.2015
  * Time: 9:55
  */
-namespace Modules;
-echo "sdfsdfsdfsdf";
+namespace Asmoria\Modules\Handler\HandlerController;
+echo "HandlerController";
 
 class HandlerController
 {

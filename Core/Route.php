@@ -1,6 +1,8 @@
 <?php
 
-namespace Core;
+namespace Asmoria\Core;
+
+use Asmoria;
 
 class Route
 {
@@ -12,8 +14,9 @@ class Route
     private $action_prefix = 'action';
     private $model_prefix = 'Model_';
     static $_instance;
+    public $namespace = "Asmoria\\Modules\\Main";
 
-    private function __construct()
+    public function __construct()
     {
         $this->routes = explode('/', $_SERVER['REQUEST_URI']);
 
@@ -25,9 +28,10 @@ class Route
         }
 
         if (!empty($this->routes[2])) {
-            $this->controller_name = $this->routes[2].$this->controller_prefix;
+            $this->controller_name = ucfirst($this->routes[2]) . $this->controller_prefix;
+            $this->namespace = "Asmoria\\Modules\\" . ucfirst($this->module_name);
         } else {
-            $this->controller_name = $this->default_controller.$this->controller_prefix;
+            $this->controller_name = $this->default_controller . $this->controller_prefix;
         }
 
         if (!empty($this->routes[3])) {
@@ -46,36 +50,17 @@ class Route
 
     }
 
-   public function run()
+    public function run()
     {
+        if (isset(Asmoria::$classMap[$this->namespace . '\\' . $this->controller_name])) {
+            $classFile = Asmoria::$classMap[$this->namespace . '\\' . $this->controller_name];
+            require_once $classFile;
+        }
         $controller_file = ucfirst($this->controller_name) . '.php';
         $controller_path = "Modules/" . $this->module_name . "/" . $controller_file;
 
-        spl_autoload_register(function($class) {
-            spl_autoload_extensions(".php");
-            $class = explode('\\', $class);
-            echo 'Trying to load ', end($class), ' via ', __METHOD__, "()\n";
-            $dirs = array(
-                'Modules/'.$this->module_name.'',          // Project modules controllers classes
-                'Modules/'.$this->module_name.'/models',   // Project modules models classes
-                'Core'                                     // Core classes example
-            );
-            foreach( $dirs as $dir ) {
-                $path = './' . $dir . '/' . end($class) . '.php';
+        $f = $this->namespace . '\\' . $this->controller_name;
 
-                if (file_exists($path)){
-                    require_once($path);
-                    return true;
-                }
-            }
-            return false;
-        });
-
-//        if (file_exists($controller_path)) include_once $controller_path;
-//        else die('No such file!');
-        $f = $this->controller_name;
-//        echo "<pre>";
-//        var_dump(class_exists($f));exit;
         $controller = $f::getInstance();
 
         $action = $this->action_prefix . ucfirst($this->action_name);
@@ -93,7 +78,7 @@ class Route
                 $_GET['q'] = $this->module_name . '/' . $this->controller_name . '/' . $action;
                 call_user_func_array(array($controller, $action), array_values($params));
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             die("Action not found");
         }
         exit;
@@ -108,3 +93,6 @@ class Route
     }
 
 }
+
+$app = new Route();
+$app->run();
