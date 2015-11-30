@@ -9,6 +9,11 @@ body {
     /*display: none;*/
 /*}*/
 
+.navbar-fixed-bottom, .navbar-fixed-top{
+    position: relative;
+    margin-bottom: auto;
+}
+
 footer {
     width: 100%;
     position: absolute;

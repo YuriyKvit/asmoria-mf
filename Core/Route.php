@@ -6,7 +6,7 @@ use Asmoria;
 
 class Route
 {
-    private $default_controller = 'Main';
+    private $default_controller;
     private $default_module = 'Main';
     private $default_action = 'Index';
     private $parameters;
@@ -14,7 +14,7 @@ class Route
     private $action_prefix = 'action';
     private $model_prefix = 'Model_';
     static $_instance;
-    public $namespace = "Asmoria\\Modules\\Main";
+    public $namespace = ALIAS . "\\Modules\\Main";
 
     public function __construct()
     {
@@ -23,15 +23,16 @@ class Route
         if (count($this->routes) > 5) die('Method was not found!');
         if (!empty($this->routes[1])) {
             $this->module_name = $this->routes[1];
+            $this->default_controller = $this->module_name;
         } else {
             $this->module_name = $this->default_module;
         }
 
         if (!empty($this->routes[2])) {
             $this->controller_name = ucfirst($this->routes[2]) . $this->controller_prefix;
-            $this->namespace = "Asmoria\\Modules\\" . ucfirst($this->module_name);
+            $this->namespace = ALIAS . "\\Modules\\" . ucfirst($this->module_name);
         } else {
-            $this->controller_name = $this->default_controller . $this->controller_prefix;
+            $this->controller_name = $this->module_name . $this->controller_prefix;
         }
 
         if (!empty($this->routes[3])) {
@@ -52,34 +53,49 @@ class Route
 
     public function run()
     {
-        if (isset(Asmoria::$classMap[$this->namespace . '\\' . $this->controller_name])) {
-            $classFile = Asmoria::$classMap[$this->namespace . '\\' . $this->controller_name];
-            require_once $classFile;
-        }
-        $controller_file = ucfirst($this->controller_name) . '.php';
-        $controller_path = "Modules/" . $this->module_name . "/" . $controller_file;
-
-        $f = $this->namespace . '\\' . $this->controller_name;
-
-        $controller = $f::getInstance();
-
-        $action = $this->action_prefix . ucfirst($this->action_name);
         try {
-            if (method_exists($controller, $action)) {
-                parse_str($this->parameters, $params);
-                $_GET = $params;
-                $_GET['q'] = $this->module_name . '/' . $this->controller_name . '/' . $action;
-                call_user_func_array(array($controller, $action), array_values($params));
+            if (isset(Asmoria::$classMap[$this->namespace . '\\' . $this->controller_name])) {
+                $classFile = Asmoria::$classMap[$this->namespace . '\\' . $this->controller_name];
+                require_once $classFile;
+            }
+            if ($this->module_name !== $this->default_module) {
+                $controller_file = ucfirst($this->controller_name) . '.php';
+                $controller_path = "Modules/" . $this->module_name . "/" . $controller_file;
+                if (!is_file($controller_path)) {
+                    $this->controller_name = $this->default_controller . $this->controller_prefix;
+                    $controller_path = "Modules/" . $this->module_name . "/" . $this->controller_name . '.php';
+                    $this->action_name = $this->routes[2];
+                    $this->parameters = !empty($this->routes[3]) ? $this->routes[3] : NULL;
+                }
+                require_once $controller_path;
+
+                $f = ALIAS . "\\Modules\\" . $this->module_name . "\\" . $this->controller_name;
             } else {
-                $action = $this->action_prefix . $this->default_action;
-                $this->parameters = $this->routes[3];
-                parse_str($this->parameters, $params);
-                $_GET = $params;
-                $_GET['q'] = $this->module_name . '/' . $this->controller_name . '/' . $action;
-                call_user_func_array(array($controller, $action), array_values($params));
+                $f = $this->namespace . '\\' . $this->controller_name;
+            }
+            $controller = $f::getInstance();
+            $action = $this->action_prefix . ucfirst($this->action_name);
+            try {
+                if (method_exists($controller, $action)) {
+                    parse_str($this->parameters, $params);
+                    $_GET = $params;
+                    $_GET['q'] = $this->module_name . '/' . $this->controller_name . '/' . $action;
+                    call_user_func_array(array($controller, $action), array_values($params));
+                } else {
+                    if(empty($this->routes[3]))
+                        throw new \Exception("Wrong way!");
+                    $action = $this->action_prefix . $this->default_action;
+                    $this->parameters = $this->routes[3];
+                    parse_str($this->parameters, $params);
+                    $_GET = $params;
+                    $_GET['q'] = $this->module_name . '/' . $this->controller_name . '/' . $action;
+                    call_user_func_array(array($controller, $action), array_values($params));
+                }
+            } catch (\Exception $e) {
+                die($e->getMessage());
             }
         } catch (\Exception $e) {
-            die("Action not found");
+            die($e->getMessage());
         }
         exit;
     }

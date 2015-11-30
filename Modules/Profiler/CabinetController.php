@@ -3,7 +3,7 @@
 namespace Asmoria\Modules\Profiler;
 
 use Asmoria\Core\Configuration;
-use Asmoria\Modules\HandlerController as Handler;
+use Asmoria\Modules\Handler\HandlerController as Handler;
 /**
  * Created by PhpStorm.
  * User: Asmoria-Y
@@ -40,7 +40,7 @@ class CabinetController
 
     public function actionTest()
     {
-        Handler::test();
+//        Handler::getInstance()->test("qwertyuio");
 //        echo $hjh;exit;
     }
 

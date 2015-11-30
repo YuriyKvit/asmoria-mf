@@ -18,7 +18,7 @@ class Core
 
     public static $namespace = "";
 
-    public function Create($root = null, $mapFile = null)
+    public static function Create($root = null, $mapFile = null)
     {
         if ($root === null) {
             $root = ROOT_DIR;
@@ -65,10 +65,10 @@ $map
 ];
 EOD;
         if (is_file($mapFile) && file_get_contents($mapFile) === $output) {
-            echo "Nothing changed.\n";
+//            echo "Nothing changed.\n";
         } else {
             file_put_contents($mapFile, $output);
-            echo "Class map saved in $mapFile\n";
+//            echo "Class map saved in $mapFile\n";
         }
     }
 

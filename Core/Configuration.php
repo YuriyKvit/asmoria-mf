@@ -20,10 +20,10 @@ session_start();
 
 class Configuration
 {
-    var $dbName;
-    var $dbUser;
-    var $dbPass;
-    var $connection;
+     private $dbName;
+     private $dbUser;
+     private $dbPass;
+     public $connection;
     static $_instance;
 
     private function __Clone()
@@ -127,7 +127,7 @@ LBR;
 <script src="../../style/js/bootstrap.min.js"></script>
 <script src="../../style/js/custom.js"></script>
 <body>
-<nav class="navbar navbar-inverse navbar-fixed-top">
+<nav class="navbar header navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
             <a class="navbar-brand" href="http://{$_SERVER['HTTP_HOST']}"><b>Asmoria</b></a>
