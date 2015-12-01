@@ -8,17 +8,23 @@
 
 namespace Asmoria\Modules\Administration\Models;
 
-use Asmoria\Core\Configuration;
+use Asmoria\Core\Model;
 use Asmoria\Modules\Profiler\ProfilerController;
 
-class AclRolesModel {
-    static $_instance;
-    public $db;
+class AclRolesModel extends Model
+{
 
-    private function __construct()
+    static $_instance;
+    public $id;
+    public $type;
+
+    protected function __construct()
     {
-        $this->db = Configuration::getInstance();
-        $this->profile = ProfilerController::getInstance();
+        parent::__construct();
+//        $this->profile = ProfilerController::getInstance();
+        $this->prefix = "acl";
+        $this->table = "roles";
+        $this->idField = "usr_id";
     }
 
 
@@ -27,8 +33,9 @@ class AclRolesModel {
 
     }
 
-    public function test(){
-        return "Hello World";
+    public function test()
+    {
+       return $this->getById(2);//$this->select(["type", "id"], ["type" => "ADMIN", "id" => 1]);
     }
 
     public static function getInstance()

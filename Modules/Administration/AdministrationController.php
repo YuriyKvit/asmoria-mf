@@ -34,7 +34,7 @@ class AdministrationController
     {
         echo $this->db->getHeader();
         echo "<pre>";
-        var_dump(Roles::getInstance()->test());exit;
+        var_dump(UsersRole::getInstance()->test());exit;
         echo $this->db->getFooter();
     }
 

@@ -8,24 +8,31 @@
 
 namespace Asmoria\Modules\Administration\Models;
 
-use Asmoria\Core\Configuration;
+use Asmoria\Core\Model;
 use Asmoria\Modules\Profiler\ProfilerController;
 
-class AclUsersModel{
+class AclUsersModel extends Model{
 
     static $_instance;
-    public $db;
 
-    private function __construct()
+    protected function __construct()
     {
-        $this->db = Configuration::getInstance();
-        $this->profile = ProfilerController::getInstance();
+        parent::__construct();
+//        $this->profile = ProfilerController::getInstance();
+        $this->prefix = "acl";
+        $this->table = "users_role";
+        $this->idField = "usr_id";
     }
 
 
     private function __Clone()
     {
 
+    }
+
+    public function test()
+    {
+       return $this->getById(1);
     }
 
     public static function getInstance()

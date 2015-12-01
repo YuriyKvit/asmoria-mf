@@ -3,6 +3,7 @@
 return [
 'Asmoria\Core\Configuration' => ROOT_DIR . '/Core/Configuration.php',
 'Asmoria\Core\Core' => ROOT_DIR . '/Core/Core.php',
+'Asmoria\Core\Model' => ROOT_DIR . '/Core/Model.php',
 'Asmoria\Core\Route' => ROOT_DIR . '/Core/Route.php',
 'Asmoria\Core\classes' => ROOT_DIR . '/Core/classes.php',
 'Asmoria\Modules\Administration\AdministrationController' => ROOT_DIR . '/Modules/Administration/AdministrationController.php',
