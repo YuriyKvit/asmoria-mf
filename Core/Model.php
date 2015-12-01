@@ -16,10 +16,16 @@ class Model
     protected $table;
     protected $prefix;
     protected $idField = "id";
+    public $id;
 
-    protected function __construct()
+    public function __construct($id = NULL)
     {
-
+        $sth = Configuration::getInstance()->connection->prepare("
+        SELECT *
+        FROM " . $this->prefix . "_" . $this->table
+        );
+        $sth->execute();
+        $sth->fetchAll(\PDO::FETCH_CLASS, get_called_class());
     }
 
     protected function select($fields = "*", $where = "")

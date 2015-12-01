@@ -15,15 +15,16 @@ namespace Asmoria\Core;
 use \Asmoria\Core\Route;
 
 ini_set('memory_limit', '-1');
-
+define("ADMIN_ROLE", "ADMIN");
+define("USER_ROLE", "USER");
 session_start();
 
 class Configuration
 {
-     private $dbName;
-     private $dbUser;
-     private $dbPass;
-     public $connection;
+    private $dbName;
+    private $dbUser;
+    private $dbPass;
+    public $connection;
     static $_instance;
 
     private function __Clone()

@@ -10,12 +10,14 @@ namespace Asmoria\Modules\Administration\Models;
 
 use Asmoria\Core\Model;
 use Asmoria\Modules\Profiler\ProfilerController;
+use Asmoria\Modules\Administration\Models\AclRolesModel as Roles;
+
 
 class AclUsersModel extends Model{
 
     static $_instance;
 
-    protected function __construct()
+    public function __construct()
     {
         parent::__construct();
 //        $this->profile = ProfilerController::getInstance();
@@ -28,6 +30,15 @@ class AclUsersModel extends Model{
     private function __Clone()
     {
 
+    }
+
+    public function isAdmin($id)
+    {
+        $role = $this->getById($id);
+        if(empty($role))
+            throw new \Exception("Cannot find user role");
+        $role = Roles::getInstance()->getById($role->role_id);
+        return $role->type === ADMIN_ROLE ? TRUE : FALSE;
     }
 
     public function test()

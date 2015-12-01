@@ -9,15 +9,18 @@
 namespace Asmoria\Modules\Profiler;
 
 use Asmoria\Core\Configuration;
+use Asmoria\Modules\Profiler\Models\ProfileModel as Model;
+
 
 class ProfilerController
 {
     static $_instance;
     private $db;
+    public $profile;
 
 
     private function __construct()
-    {
+    {   $this->profile = new Model();
         $this->db = Configuration::getInstance();
     }
 

@@ -4,21 +4,26 @@ namespace Asmoria\Modules\Profiler;
 
 use Asmoria\Core\Configuration;
 use Asmoria\Modules\Handler\HandlerController as Handler;
+use Asmoria\Modules\Administration\Models\AclUsersModel as UsersRole;
+
 /**
  * Created by PhpStorm.
  * User: Asmoria-Y
  * Date: 20.01.2015
  * Time: 21:20
  */
-class CabinetController
+class CabinetController extends ProfilerController
 {
     static $_instance;
     private $Db;
+    public $isAdmin;
 
     public function __Construct()
     {
         $this->Db = Configuration::getInstance();
         $this->root_dir = "http://".$_SERVER['HTTP_HOST'];
+        $this->isAdmin = UsersRole::getInstance()->isAdmin($_SESSION['u_id']);
+
     }
 
     private function __Clone()

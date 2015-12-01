@@ -18,13 +18,12 @@ class AclRolesModel extends Model
     public $id;
     public $type;
 
-    protected function __construct()
+    public function __construct()
     {
         parent::__construct();
 //        $this->profile = ProfilerController::getInstance();
         $this->prefix = "acl";
         $this->table = "roles";
-        $this->idField = "usr_id";
     }
 
 
