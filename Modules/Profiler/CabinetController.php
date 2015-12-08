@@ -23,7 +23,7 @@ class CabinetController extends ProfilerController
         $this->Db = Configuration::getInstance();
         $this->root_dir = "http://".$_SERVER['HTTP_HOST'];
         $this->isAdmin = UsersRole::getInstance()->isAdmin($_SESSION['u_id']);
-
+        parent::__Construct();
     }
 
     private function __Clone()

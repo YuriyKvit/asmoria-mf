@@ -11,6 +11,7 @@ return [
 'Asmoria\Modules\Administration\Models\AclUsersModel' => ROOT_DIR . '/Modules/Administration/Models/AclUsersModel.php',
 'Asmoria\Modules\Administration\view\index' => ROOT_DIR . '/Modules/Administration/view/index.php',
 'Asmoria\Modules\Handler\HandlerController' => ROOT_DIR . '/Modules/Handler/HandlerController.php',
+'Asmoria\Modules\Handler\view\index' => ROOT_DIR . '/Modules/Handler/view/index.php',
 'Asmoria\Modules\Main\MainController' => ROOT_DIR . '/Modules/Main/MainController.php',
 'Asmoria\Modules\Main\view\index' => ROOT_DIR . '/Modules/Main/view/index.php',
 'Asmoria\Modules\Main\view\login_bar' => ROOT_DIR . '/Modules/Main/view/login_bar.php',

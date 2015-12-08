@@ -19,7 +19,7 @@ class ProfilerController
     public $profile;
 
 
-    private function __construct()
+    public function __construct()
     {   $this->profile = new Model();
         $this->db = Configuration::getInstance();
     }

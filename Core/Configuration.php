@@ -13,6 +13,7 @@
 namespace Asmoria\Core;
 
 use \Asmoria\Core\Route;
+use Asmoria\Modules\Handler;
 
 ini_set('memory_limit', '-1');
 define("ADMIN_ROLE", "ADMIN");
@@ -43,8 +44,7 @@ class Configuration
             $this->connection = new \PDO('mysql:host=localhost;dbname=' . $this->dbName, $this->dbUser, $this->dbPass, array(\PDO::ATTR_PERSISTENT => true));
 
         } catch (\PDOException $e) {
-            print "Error!: " . $e->getMessage() . "<br/>";
-            die();
+            Handler\HandlerController::getInstance($e)->dbError();
         }
     }
 

@@ -8,45 +8,43 @@
  */
 namespace Asmoria\Modules\Handler;
 
-class HandlerController
+class HandlerController extends \Exception
 {
     static $_instance;
-    public $string;
+    public $code;
+    public $message;
+    public $line;
+    public $file;
 
-    private function __construct()
+    public function __construct($e)
     {
-        $this->string = "
-Text text +48 123 456 789
-Text text 48-123-456-789
-Some Next +380961356537
-        ";
+        $this->code = $e->getCode();
+        $this->message = $e->getMessage();
+        $this->line = $e->getLine();
+        $this->file = $e->getFile();
     }
 
 
-    private function __Clone()
+    public function dbError()
     {
-
+        if(strstr($this->message, 'SQLSTATE[')) {
+            preg_match('/SQLSTATE\[(\w+)\] \[(\w+)\] (.*)/', $this->message, $matches);
+            $this->code = ($matches[1] == 'HT000' ? $matches[2] : $matches[1]);
+            $this->message = $matches[3];
+        }
+            die(require_once "view/index.php");
     }
 
     public function actionIndex()
     {
-        header("Cache-Control: no-cache");
         echo " <br>Index Here ";
     }
 
-    public function Test($text)
-    {
-        if (!$text || !is_string($text))
-            return false;
-        $reg = "~(?<![0-9])\(?(\+\d{2,3})?\)?(?:\s|\-)?(\d{3})(?:\s|\-)?(\d{3})(?:\s|\-)?(\d{3})(?![0-9])~"; //
-        $result = preg_replace($reg, ' <a href="tel:$1$2$3$4">($1) $2 $3 $4</a> ', $text);
-        return $result;
-    }
 
-    public static function getInstance()
+    public static function getInstance($e = "")
     {
         if (!(self::$_instance instanceof self)) {
-            self::$_instance = new self();
+            self::$_instance = new self($e);
         }
         return self::$_instance;
     }
