@@ -1,12 +1,11 @@
 <?php
-include_once $_SERVER['DOCUMENT_ROOT'] . "/Modules/profiler/CabinetController.php";
 use Asmoria\Modules\Profiler\CabinetController as Controller;
 use Asmoria\Modules\Profiler\Models\ProfileModel as Model;
 
 $view = Controller::getInstance();
-$profile = new Model();
-var_dump($profile->id);exit;
-$data = $view->getProfileInfo($_SESSION['u_id']);
+$data = $view->getProfileInfo();
+echo "<pre>";
+var_dump($data);exit;
 
 
 ?>

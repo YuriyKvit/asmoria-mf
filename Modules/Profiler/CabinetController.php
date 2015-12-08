@@ -5,6 +5,8 @@ namespace Asmoria\Modules\Profiler;
 use Asmoria\Core\Configuration;
 use Asmoria\Modules\Handler\HandlerController as Handler;
 use Asmoria\Modules\Administration\Models\AclUsersModel as UsersRole;
+use Asmoria\Modules\Handler\HandlerController;
+use Asmoria\Modules\Profiler\Models\ProfileModel;
 
 /**
  * Created by PhpStorm.
@@ -20,10 +22,13 @@ class CabinetController extends ProfilerController
 
     public function __Construct()
     {
+        try{
         $this->Db = Configuration::getInstance();
         $this->root_dir = "http://".$_SERVER['HTTP_HOST'];
-        $this->isAdmin = UsersRole::getInstance()->isAdmin($_SESSION['u_id']);
         parent::__Construct();
+        } catch(HandlerController $e){
+            $e->getError();
+        }
     }
 
     private function __Clone()
@@ -151,13 +156,17 @@ class CabinetController extends ProfilerController
                 $_SESSION['u_mail'] = $check['mail'];
                 $result2['status'] = 'ok';
                 $result2['content'] = $db->getLoginBar();
+                $this->isAdmin = UsersRole::getInstance()->isAdmin($_SESSION['u_id']);
                 echo json_encode($result2);exit;
             }
             else{
                 $result2['status'] = 'false';
-                $result2['content'] = "";
+                $result2['content'] = "Error, try again";
                 echo json_encode($result2);exit;
             }
+        }
+        else {
+                Handler::getInstance(new \Exception("Register or authorize first"), true)->getError();
         }
     }
 
@@ -166,8 +175,11 @@ class CabinetController extends ProfilerController
         header('Location: '.ROOT_URL);
     }
 
-    public function  getProfileInfo($id){
-        $id = (int)$id;
+    public function  getProfileInfo(){
+        $id = (int)$_SESSION['u_id'];
+        $profile = new ProfileModel($id);
+        var_dump($profile);exit;
+        return $profile;
         $sql_ = $this->Db->connection->prepare("SELECT * FROM `profiles` WHERE `id` = :id");
         $sql_->bindValue(':id', $id, \PDO::PARAM_INT);
         $sql_->execute();

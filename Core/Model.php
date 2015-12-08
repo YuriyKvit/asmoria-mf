@@ -20,15 +20,25 @@ class Model
 
     public function __construct($id = NULL)
     {
+        $this->prefix ? $this->prefix = $this->prefix."_" : $this->prefix = "";
+        $where = "";
+        if(!empty(intval($id))){
+            $where = " WHERE ".$this->idField."=?";
+        }
         $sth = Configuration::getInstance()->connection->prepare("
         SELECT *
-        FROM " . $this->prefix . "_" . $this->table
+        FROM " . $this->prefix . $this->table.$where
         );
-        $sth->execute();
-        $sth->fetchAll(\PDO::FETCH_CLASS, get_called_class());
+        $id = [$id];
+        $sth->setFetchMode(\PDO::FETCH_CLASS);
+        $sth->execute($id);
+        var_dump($sth->fetch(\PDO::FETCH_CLASS));exit;
+        $sth->fetch(\PDO::FETCH_CLASS);
+//
+//        $sth->fetch(\PDO::FETCH_CLASS, get_called_class());
     }
 
-    protected function select($fields = "*", $where = "")
+    public function select($fields = "*", $where = "")
     {
         if (!is_array($fields) && !is_string($fields))
             throw new \Exception("Parameter was missed");

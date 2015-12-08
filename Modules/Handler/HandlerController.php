@@ -15,13 +15,16 @@ class HandlerController extends \Exception
     public $message;
     public $line;
     public $file;
+    public $json;
 
-    public function __construct($e)
+    public function __construct($e, $json = false)
     {
+        var_dump(get_called_class());
         $this->code = $e->getCode();
         $this->message = $e->getMessage();
         $this->line = $e->getLine();
         $this->file = $e->getFile();
+        $this->json = $json;
     }
 
 
@@ -35,16 +38,26 @@ class HandlerController extends \Exception
             die(require_once "view/index.php");
     }
 
+
+    public function getError()
+    {
+        if($this->json){
+            die(json_encode(['status'=>false, 'content'=>$this->message]));
+        }
+        header("Location:".ROOT_URL."/handler");
+        die(require_once"view/index.php");
+    }
+
     public function actionIndex()
     {
         echo " <br>Index Here ";
     }
 
 
-    public static function getInstance($e = "")
+    public static function getInstance($e = "", $json = false)
     {
         if (!(self::$_instance instanceof self)) {
-            self::$_instance = new self($e);
+            self::$_instance = new self($e, $json);
         }
         return self::$_instance;
     }

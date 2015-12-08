@@ -56,7 +56,7 @@ function ajaxSubmit_c(s) {
                     }
                     else {
                         $('.auth_form').hide();
-                        $('.logout-wrap').html('<div class = "error-text">Error, try again</div>');
+                        $('.logout-wrap').html('<div class = "error-text">'+sResponce.content+'</div>');
                         setTimeout("$('.logout-wrap').html(Form);", 3000);
                     }
                 }
