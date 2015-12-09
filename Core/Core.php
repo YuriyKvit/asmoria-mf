@@ -181,8 +181,8 @@ EOD;
                 return;
             }
         } else {
-            echo "<pre>";
-            var_dump(static::$classMap);
+//            echo "<pre>";
+//            var_dump(static::$classMap);
             return;
         }
         include($classFile);

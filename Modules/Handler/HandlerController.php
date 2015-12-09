@@ -17,9 +17,9 @@ class HandlerController extends \Exception
     public $file;
     public $json;
 
-    public function __construct($e, $json = false)
+    public function __construct(\Exception $e, $json = false)
     {
-        var_dump(get_called_class());
+        parent::__construct($e);
         $this->code = $e->getCode();
         $this->message = $e->getMessage();
         $this->line = $e->getLine();
@@ -54,9 +54,10 @@ class HandlerController extends \Exception
     }
 
 
-    public static function getInstance($e = "", $json = false)
+    public static function getInstance(\Exception $e = NULL, $json = false)
     {
         if (!(self::$_instance instanceof self)) {
+            $e!==NULL ? FALSE : $e = new \Exception("");
             self::$_instance = new self($e, $json);
         }
         return self::$_instance;

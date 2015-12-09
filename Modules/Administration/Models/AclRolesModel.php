@@ -17,13 +17,13 @@ class AclRolesModel extends Model
     static $_instance;
     public $id;
     public $type;
+    public $table = "roles";
+    public $prefix = "acl";
 
     public function __construct()
     {
-        parent::__construct();
+//        parent::__construct();
 //        $this->profile = ProfilerController::getInstance();
-        $this->prefix = "acl";
-        $this->table = "roles";
     }
 
 

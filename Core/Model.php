@@ -30,9 +30,8 @@ class Model
         FROM " . $this->prefix . $this->table.$where
         );
         $id = [$id];
-        $sth->setFetchMode(\PDO::FETCH_CLASS);
+        $sth->setFetchMode(\PDO::FETCH_CLASS, get_called_class());
         $sth->execute($id);
-        var_dump($sth->fetch(\PDO::FETCH_CLASS));exit;
         $sth->fetch(\PDO::FETCH_CLASS);
 //
 //        $sth->fetch(\PDO::FETCH_CLASS, get_called_class());

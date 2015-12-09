@@ -16,14 +16,14 @@ use Asmoria\Modules\Administration\Models\AclRolesModel as Roles;
 class AclUsersModel extends Model{
 
     static $_instance;
+    public $idField = "usr_id";
+    public $table = "users_role";
+    public $prefix = "acl";
 
     public function __construct()
     {
-        parent::__construct();
+//        parent::__construct();
 //        $this->profile = ProfilerController::getInstance();
-        $this->prefix = "acl";
-        $this->table = "users_role";
-        $this->idField = "usr_id";
     }
 
 

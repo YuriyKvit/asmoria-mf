@@ -136,38 +136,6 @@ class CabinetController extends ProfilerController
 
     public function actionAuth()
     {
-        $check = array();
-        if (!empty($_SESSION['u_mail']) && !empty($_SESSION['u_id'])) {
-
-            exit;
-        }
-        $result = "";
-        if (!empty($_POST['a_email']) && !empty($_POST['a_pass'])) {
-            $db = Configuration::getInstance();
-            $mail = $_POST['a_email'];
-            $pass = $this->Db->encodePass($_POST['a_pass']);
-            $sql_ = $db->connection->prepare("SELECT * FROM `profiles` WHERE `mail` = :mail AND `pass` = :pass");
-            $sql_->bindValue(':mail', $mail, \PDO::PARAM_STR);
-            $sql_->bindValue(':pass', $pass, \PDO::PARAM_STR);
-            $result = $sql_->execute();
-            $check = $sql_->fetch(\PDO::FETCH_ASSOC);
-            if ($check['id'] && empty($_SESSION['u_id'])) {
-                $_SESSION['u_id'] = $check['id'];
-                $_SESSION['u_mail'] = $check['mail'];
-                $result2['status'] = 'ok';
-                $result2['content'] = $db->getLoginBar();
-                $this->isAdmin = UsersRole::getInstance()->isAdmin($_SESSION['u_id']);
-                echo json_encode($result2);exit;
-            }
-            else{
-                $result2['status'] = 'false';
-                $result2['content'] = "Error, try again";
-                echo json_encode($result2);exit;
-            }
-        }
-        else {
-                Handler::getInstance(new \Exception("Register or authorize first"), true)->getError();
-        }
     }
 
     public function actionLogout(){
@@ -176,14 +144,8 @@ class CabinetController extends ProfilerController
     }
 
     public function  getProfileInfo(){
-        $id = (int)$_SESSION['u_id'];
-        $profile = new ProfileModel($id);
-        var_dump($profile);exit;
-        return $profile;
-        $sql_ = $this->Db->connection->prepare("SELECT * FROM `profiles` WHERE `id` = :id");
-        $sql_->bindValue(':id', $id, \PDO::PARAM_INT);
-        $sql_->execute();
-        return $sql_->fetch(\PDO::FETCH_ASSOC);
+        $model = new ProfileModel();
+        return $model->profile;
     }
 
     public static function getInstance()
