@@ -24,8 +24,7 @@ class AdministrationController
     private function __construct()
     {
         $this->db = Configuration::getInstance();
-        $this->profileModel = new ProfileModel();
-        $this->isAdmin = $this->profileModel->profile->isAdmin;
+        $this->isAdmin = ProfilerController::getInstance()->isAdmin;
         if(!$this->isAdmin){
             throw new HandlerController(new \Exception("Page not found"));
         }
