@@ -37,6 +37,7 @@ class ProfileModel extends Model{
             $sth->execute($id);
             $this->profile = $sth->fetchObject();
             $this->profile->isAdmin = UsersRole::getInstance()->isAdmin($this->profile->id);
+            parent::__construct();
         }catch (Handler $e){
     }
 

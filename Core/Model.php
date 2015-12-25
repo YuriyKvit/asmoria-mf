@@ -21,18 +21,18 @@ class Model
     public function __construct($id = NULL)
     {
         $this->prefix ? $this->prefix = $this->prefix."_" : $this->prefix = "";
-        $where = "";
-        if(!empty(intval($id))){
-            $where = " WHERE ".$this->idField."=?";
-        }
-        $sth = Configuration::getInstance()->connection->prepare("
-        SELECT *
-        FROM " . $this->prefix . $this->table.$where
-        );
-        $id = [$id];
-        $sth->setFetchMode(\PDO::FETCH_CLASS, get_called_class());
-        $sth->execute($id);
-        $sth->fetch(\PDO::FETCH_CLASS);
+//        $where = "";
+//        if(!empty(intval($id))){
+//            $where = " WHERE ".$this->idField."=?";
+//        }
+//        $sth = Configuration::getInstance()->connection->prepare("
+//        SELECT *
+//        FROM " . $this->prefix . $this->table.$where
+//        );
+//        $id = [$id];
+//        $sth->setFetchMode(\PDO::FETCH_CLASS, get_called_class());
+//        $sth->execute($id);
+//        $sth->fetch(\PDO::FETCH_CLASS);
 //
 //        $sth->fetch(\PDO::FETCH_CLASS, get_called_class());
     }

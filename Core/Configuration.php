@@ -13,7 +13,9 @@
 namespace Asmoria\Core;
 
 use \Asmoria\Core\Route;
+use Asmoria\Modules\Administration\AdministrationController;
 use Asmoria\Modules\Handler;
+use Asmoria\Modules\Profiler\ProfilerController;
 
 ini_set('memory_limit', '-1');
 define("ADMIN_ROLE", "ADMIN");
@@ -83,9 +85,10 @@ class Configuration
 
     public function getLoginBar()
     {
+        $panelButton = ProfilerController::getInstance()->isAdmin ? AdministrationController::getInstance()->getButton() : "";
         if (!$this->getLoggedId()) {
             $login_bar = <<<LBR
-<form class="navbar-form navbar-right auth_form" target="_self" name="auth_main" method="post"
+                <form class="navbar-form navbar-right auth_form" target="_self" name="auth_main" method="post"
                       action="" enctype="multipart/form-data" onsubmit="ajaxSubmit_c('auth')">
                     <div class="form-group">
                         <input type="email" name="a_email" placeholder="Email" class="form-control" required/>
@@ -102,9 +105,11 @@ LBR;
 
         } else {
             $login_bar = <<<LBR
-<div class="navbar-right"><a class="btn btn-primary logout" href="http://{$_SERVER['HTTP_HOST']}/profiler/cabinet/logout">Logout</a>
-                    <a href="http://{$_SERVER['HTTP_HOST']}/profiler/cabinet" class="btn btn-success logout"> Cabinet</a>
-                </div>
+<div class="navbar-right">
+<a class="btn btn-primary" href="http://{$_SERVER['HTTP_HOST']}/profiler/cabinet/logout">Logout</a>
+<a href="http://{$_SERVER['HTTP_HOST']}/profiler/cabinet" class="btn btn-success"> Cabinet</a>
+$panelButton
+</div>
 LBR;
 
         }

@@ -20,12 +20,11 @@ class CabinetController extends ProfilerController
     private $Db;
     public $isAdmin;
 
-    public function __Construct()
+    public function __construct()
     {
         try{
         $this->Db = Configuration::getInstance();
-        $this->root_dir = "http://".$_SERVER['HTTP_HOST'];
-        parent::__Construct();
+        parent::__construct();
         } catch(HandlerController $e){
             $e->getError();
         }

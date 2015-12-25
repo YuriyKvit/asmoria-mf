@@ -20,12 +20,15 @@ class ProfilerController
     static $_instance;
     private $db;
     public $profile;
+    public $isAdmin;
 
 
     public function __construct()
     {
         $this->db = Configuration::getInstance();
         $this->authorize();
+        if(!empty($_SESSION['u_id']))
+        $this->isAdmin = UsersRole::getInstance()->isAdmin($_SESSION['u_id']);
     }
 
 
@@ -58,7 +61,6 @@ class ProfilerController
                 $_SESSION['u_mail'] = $check->mail;
                 $result2['status'] = 'ok';
                 $result2['content'] = $db->getLoginBar();
-                $this->isAdmin = UsersRole::getInstance()->isAdmin($_SESSION['u_id']);
                 echo json_encode($result2);exit;
             }
             else{

@@ -34,8 +34,8 @@ footer {
 #asmo-register .modal-content{
     width: 110%;
 }
-.logout{
-    margin-top: 8px;
+.navbar-right{
+    margin-top: 4px;
 }
 .error-text{
     line-height:30px;

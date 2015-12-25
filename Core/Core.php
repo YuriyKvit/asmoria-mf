@@ -185,7 +185,9 @@ EOD;
 //            var_dump(static::$classMap);
             return;
         }
-        include($classFile);
+        if(!file_exists($classFile))
+            throw new \Asmoria\Modules\Handler\HandlerController(new \Exception("Wrong way"));
+        require_once($classFile);
 
         if (!class_exists($className, FALSE) && !interface_exists($className, FALSE) && !trait_exists($className, FALSE)) {
             die("<br>Unable to find '$className' in file: $classFile. Namespace missing?");

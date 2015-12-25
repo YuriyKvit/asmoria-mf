@@ -9,6 +9,8 @@
 namespace Asmoria\Modules\Administration;
 
 use Asmoria\Core\Configuration;
+use Asmoria\Modules\Handler\HandlerController;
+use Asmoria\Modules\Profiler\Models\ProfileModel;
 use Asmoria\Modules\Profiler\ProfilerController;
 use Asmoria\Modules\Administration\Models\AclRolesModel as Roles;
 use Asmoria\Modules\Administration\Models\AclUsersModel as UsersRole;
@@ -17,11 +19,16 @@ class AdministrationController
 {
     static $_instance;
     public $db;
+    public $isAdmin;
 
     private function __construct()
     {
         $this->db = Configuration::getInstance();
-        $this->profile = ProfilerController::getInstance();
+        $this->profileModel = new ProfileModel();
+        $this->isAdmin = $this->profileModel->profile->isAdmin;
+        if(!$this->isAdmin){
+            throw new HandlerController(new \Exception("Page not found"));
+        }
     }
 
 
@@ -34,7 +41,7 @@ class AdministrationController
     {
         echo $this->db->getHeader();
         echo "<pre>";
-        var_dump(UsersRole::getInstance()->test());exit;
+        var_dump($_SESSION);
         echo $this->db->getFooter();
     }
 
@@ -45,6 +52,11 @@ class AdministrationController
             echo " <br> Index Here ";
         }
         echo $this->db->getFooter();
+    }
+
+    public function getButton()
+    {
+        return "<a href='".ROOT_URL."/administration/'\" class=\"btn btn-success administration\"> Administration</a>";
     }
 
     public static function getInstance()

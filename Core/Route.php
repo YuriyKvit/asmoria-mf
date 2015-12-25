@@ -67,6 +67,8 @@ class Route
                     $this->action_name = $this->routes[2];
                     $this->parameters = !empty($this->routes[3]) ? $this->routes[3] : NULL;
                 }
+                if(!file_exists($controller_path))
+                    throw new Asmoria\Modules\Handler\HandlerController(new \Exception("Wrong way"));
                 require_once $controller_path;
 
                 $f = ALIAS . "\\Modules\\" . $this->module_name . "\\" . $this->controller_name;
