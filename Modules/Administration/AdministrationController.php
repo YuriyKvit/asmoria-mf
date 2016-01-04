@@ -10,6 +10,7 @@ namespace Asmoria\Modules\Administration;
 
 use Asmoria\Core\Configuration;
 use Asmoria\Core\Controller;
+use Asmoria\Core\Route;
 use Asmoria\Modules\Handler\HandlerController;
 use Asmoria\Modules\Profiler\Models\ProfileModel;
 use Asmoria\Modules\Profiler\ProfilerController;
@@ -38,7 +39,7 @@ class AdministrationController extends Controller{
     public function actionIndex()
     {
 
-        $this->render('index');
+        $this->view->render('index', ['classMap'=>$this->classMap]);
 
     }
 

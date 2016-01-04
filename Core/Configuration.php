@@ -151,7 +151,8 @@ LBR;
         <!--/.navbar-collapse -->
     </div>
 </nav>
-</body>
+<div class="wrapper">
+
 EOL;
         echo $header;
 
@@ -160,9 +161,12 @@ EOL;
     public function getFooter()
     {
         $footer = <<<FOT
+        <div class="push"></div>
+        </div>
     <footer>
         <h5><p>&copy; Asmoria corp 2015</p></h5>
     </footer>
+    </body>
 FOT;
         echo $footer;
         exit;

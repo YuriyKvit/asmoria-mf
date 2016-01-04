@@ -6,6 +6,7 @@ return [
 'Asmoria\Core\Core' => ROOT_DIR . '/Core/Core.php',
 'Asmoria\Core\Model' => ROOT_DIR . '/Core/Model.php',
 'Asmoria\Core\Route' => ROOT_DIR . '/Core/Route.php',
+'Asmoria\Core\View' => ROOT_DIR . '/Core/View.php',
 'Asmoria\Core\classes' => ROOT_DIR . '/Core/classes.php',
 'Asmoria\Modules\Administration\AdministrationController' => ROOT_DIR . '/Modules/Administration/AdministrationController.php',
 'Asmoria\Modules\Administration\Models\AclRolesModel' => ROOT_DIR . '/Modules/Administration/Models/AclRolesModel.php',
