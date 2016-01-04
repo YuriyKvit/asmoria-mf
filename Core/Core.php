@@ -2,6 +2,8 @@
 
 namespace Asmoria;
 
+use Asmoria\Modules\Handler\HandlerController;
+
 class Core
 {
 
@@ -53,7 +55,7 @@ class Core
                 die("Something wrong: $file\n");
             }
             $path = str_replace('\\', '/', substr($file, strlen($root)));
-            $map[$path] = "'Asmoria" . substr(str_replace('/', '\\', $path), 0, -4) . "' => ROOT_DIR . '$path',";
+            $map[$path] = "'".ALIAS . substr(str_replace('/', '\\', $path), 0, -4) . "' => ROOT_DIR . '$path',";
         }
         ksort($map);
         $map = implode("\n", $map);
@@ -181,9 +183,8 @@ EOD;
                 return;
             }
         } else {
-//            echo "<pre>";
-//            var_dump(static::$classMap);
-            return;
+            \Asmoria::Create();
+            throw new HandlerController(new \Exception('Cannot find file "'.$className.'" Try reload page...'));
         }
         if(!file_exists($classFile))
             throw new \Asmoria\Modules\Handler\HandlerController(new \Exception("Wrong way"));

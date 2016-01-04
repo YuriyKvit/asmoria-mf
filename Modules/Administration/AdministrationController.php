@@ -9,19 +9,19 @@
 namespace Asmoria\Modules\Administration;
 
 use Asmoria\Core\Configuration;
+use Asmoria\Core\Controller;
 use Asmoria\Modules\Handler\HandlerController;
 use Asmoria\Modules\Profiler\Models\ProfileModel;
 use Asmoria\Modules\Profiler\ProfilerController;
 use Asmoria\Modules\Administration\Models\AclRolesModel as Roles;
 use Asmoria\Modules\Administration\Models\AclUsersModel as UsersRole;
 
-class AdministrationController
-{
+class AdministrationController extends Controller{
     static $_instance;
     public $db;
     public $isAdmin;
 
-    private function __construct()
+    public function __construct()
     {
         $this->db = Configuration::getInstance();
         $this->isAdmin = ProfilerController::getInstance()->isAdmin;
