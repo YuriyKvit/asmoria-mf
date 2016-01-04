@@ -15,6 +15,9 @@ class Route
     private $model_prefix = 'Model_';
     static $_instance;
     public $namespace = ALIAS . "\\Modules\\Main";
+    public static $module;
+    public static $modules_dir = "Modules";
+    public static $view_dir = "view";
 
     public function __construct()
     {
@@ -46,7 +49,7 @@ class Route
         } else {
             $this->parameters = "";
         }
-
+        self::$module = $this->module_name;
         $this->run();
 
     }
@@ -76,12 +79,12 @@ class Route
                 $f = $this->namespace . '\\' . $this->controller_name;
             }
             $controller = $f::getInstance();
-            $action = $this->action_prefix . ucfirst($this->action_name);
+            $action = $this->action_prefix . $this->action_name;
             try {
                 if (method_exists($controller, $action)) {
                     parse_str($this->parameters, $params);
                     $_GET = $params;
-                    $_GET['q'] = $this->module_name . '/' . $this->controller_name . '/' . $action;
+                    $_GET['q'] = $this->module_name . '/' . $this->controller_name . '/' . $this->action_name;
                     call_user_func_array(array($controller, $action), array_values($params));
                 } else {
                     if(empty($this->routes[3]))

@@ -18,16 +18,15 @@ use Asmoria\Modules\Administration\Models\AclUsersModel as UsersRole;
 
 class AdministrationController extends Controller{
     static $_instance;
-    public $db;
     public $isAdmin;
 
     public function __construct()
     {
-        $this->db = Configuration::getInstance();
         $this->isAdmin = ProfilerController::getInstance()->isAdmin;
         if(!$this->isAdmin){
             throw new HandlerController(new \Exception("Page not found"));
         }
+        parent::__construct();
     }
 
 
@@ -38,10 +37,9 @@ class AdministrationController extends Controller{
 
     public function actionIndex()
     {
-        echo $this->db->getHeader();
-        echo "<pre>";
-        var_dump($_SESSION);
-        echo $this->db->getFooter();
+
+        $this->render('index');
+
     }
 
     public function actionTest()
