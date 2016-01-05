@@ -18,8 +18,8 @@ use Asmoria\Modules\Handler;
 use Asmoria\Modules\Profiler\ProfilerController;
 
 ini_set('memory_limit', '-1');
-define("ADMIN_ROLE", "ADMIN");
-define("USER_ROLE", "USER");
+define("ADMIN_ROLE", 3);
+define("USER_ROLE", 4);
 session_start();
 
 class Configuration
@@ -96,7 +96,7 @@ class Configuration
                     <div class="form-group">
                         <input type="password" name="a_pass" placeholder="Password" class="form-control" required/>
                     </div>
-                    <button type="submit" id="sbmt" class="btn btn-success">Sign in</button>
+                    <button type="submit" id="sbmt" name="submit" class="btn btn-success">Sign in</button>
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#asmo-register">
                         Registration
                     </button>
@@ -106,7 +106,7 @@ LBR;
         } else {
             $login_bar = <<<LBR
 <div class="navbar-right">
-<a class="btn btn-primary" href="http://{$_SERVER['HTTP_HOST']}/profiler/cabinet/logout">Logout</a>
+<a class="btn btn-primary" href="http://{$_SERVER['HTTP_HOST']}/profiler/logout">Logout</a>
 <a href="http://{$_SERVER['HTTP_HOST']}/profiler/cabinet" class="btn btn-success"> Cabinet</a>
 $panelButton
 </div>

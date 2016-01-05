@@ -8,7 +8,7 @@
 
 namespace Asmoria\Core;
 
-//use Asmoria\Core\Configuration;
+use Asmoria\Modules\Handler\HandlerController;
 
 class Model
 {
@@ -21,21 +21,33 @@ class Model
     public function __construct($id = NULL)
     {
         $this->prefix ? $this->prefix = $this->prefix."_" : $this->prefix = "";
-//        $where = "";
-//        if(!empty(intval($id))){
-//            $where = " WHERE ".$this->idField."=?";
-//        }
-//        $sth = Configuration::getInstance()->connection->prepare("
-//        SELECT *
-//        FROM " . $this->prefix . $this->table.$where
-//        );
-//        $id = [$id];
-//        $sth->setFetchMode(\PDO::FETCH_CLASS, get_called_class());
-//        $sth->execute($id);
-//        $sth->fetch(\PDO::FETCH_CLASS);
-//
-//        $sth->fetch(\PDO::FETCH_CLASS, get_called_class());
+        $this->getFields();
+        $this->save((object)['first'=>'test', 'second'=>'second']);
     }
+
+
+    private function getFields()
+    {
+        $sth = Configuration::getInstance()->connection->prepare("DESCRIBE ".$this->prefix.$this->table);
+        $fields = [];
+        if($sth->execute()){
+            $result = $sth->fetchAll();
+            foreach ($result as $item) {
+                $fields[] = $item['Field'];
+            }
+        }
+        else throw new HandlerController(new \Exception("Error when getting table fields"));
+        return implode(", ", $fields);
+    }
+
+    public function save($data)
+    {
+//        var_dump();exit;
+        $fields = $this->getFields();
+        property_exists($data, 'qwerty');
+
+    }
+
 
     public function select($fields = "*", $where = "")
     {
@@ -70,11 +82,15 @@ class Model
 
     public function getById($id)
     {
-        $stmt = Configuration::getInstance()->connection->prepare('SELECT * FROM ' . $this->prefix . '_' . $this->table . ' WHERE ' . $this->idField . '=?');
+        $id = intval($id);
+        $stmt = Configuration::getInstance()->connection->prepare('
+            SELECT * FROM ' . $this->prefix . $this->table . '
+            WHERE ' . $this->idField . '=?');
         try {
-            if ($stmt->execute([$id]))
+            if ($stmt->execute([$id])){
                 return $stmt->fetchObject(get_called_class());
-            else throw new \Exception("No id field or wrong input parameters");
+            }
+            else throw new HandlerController(new \Exception("No id field or wrong input parameters"));
         } catch (\Exception $e) {
             return $e->getMessage();
         }

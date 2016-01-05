@@ -22,19 +22,13 @@ class AclRolesModel extends Model
 
     public function __construct()
     {
-//        parent::__construct();
-//        $this->profile = ProfilerController::getInstance();
+        parent::__construct();
     }
 
 
     private function __Clone()
     {
 
-    }
-
-    public function test()
-    {
-       return $this->getById(2);//$this->select(["type", "id"], ["type" => "ADMIN", "id" => 1]);
     }
 
     public static function getInstance()

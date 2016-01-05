@@ -2,8 +2,8 @@
  * Created by Asmoria-Y on 20.01.2015.
  */
 
-var sUrl_r = '/profiler/cabinet/register';      // Url for registration
-var sUrl_a = '/profiler/cabinet/auth';          // Url for authorization
+var sUrl_r = '/profiler/register';      // Url for registration
+var sUrl_a = '/profiler/auth';          // Url for authorization
 var Form;
 
 $(document).ready(function () {
