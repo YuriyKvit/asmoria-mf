@@ -11,7 +11,7 @@ class View{
 
     }
 
-    public function render($view, $params = [])
+    public function render($view = "", $params = [])
     {
         $view = $this->getModuleView($view);
         foreach ($params as $k=>$v) {

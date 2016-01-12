@@ -36,15 +36,17 @@ class AclUsersModel extends Model
     public function isAdmin($id)
     {
         $role = $this->getById($id);
-        if (empty($role))
-            throw new HandlerController(new \Exception("Cannot find user role"));
+        if ($role === FALSE)
+            return FALSE;
         $role = Roles::getInstance()->getById($role->role_id);
         return intval($role->id) === ADMIN_ROLE ? TRUE : FALSE;
     }
 
-    public function setRole($user, $role)
+    public function setRole($user_id, $role)
     {
-
+        $this->usr_id = intval($user_id);
+        $this->role_id = intval($role);
+        return $this->save();
     }
 
     public static function getInstance()

@@ -34,7 +34,6 @@ function ajaxSubmit_c(s) {
                         $('.modal-body').html(sResponce.errors + $(form.parentNode).html());
                     }
                 }
-
             });
             break;
         case 'auth':

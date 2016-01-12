@@ -18,7 +18,6 @@ class CabinetController extends ProfilerController
     public function __construct()
     {
         parent::__construct();
-        $this->test();
     }
 
     private function __Clone()
@@ -28,7 +27,7 @@ class CabinetController extends ProfilerController
 
     public function test(){
         echo "<pre>";
-        var_dump(new AclUsersModel());exit;
+        return new AclUsersModel();
     }
 
     public function actionIndex()

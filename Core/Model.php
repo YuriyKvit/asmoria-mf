@@ -21,31 +21,45 @@ class Model
     public function __construct($id = NULL)
     {
         $this->prefix ? $this->prefix = $this->prefix."_" : $this->prefix = "";
-        $this->getFields();
-        $this->save((object)['first'=>'test', 'second'=>'second']);
+        $this->table = $this->prefix.$this->table;
     }
 
 
-    private function getFields()
+    public function getFields()
     {
-        $sth = Configuration::getInstance()->connection->prepare("DESCRIBE ".$this->prefix.$this->table);
+        $sth = Configuration::getInstance()->connection->prepare("DESCRIBE ".$this->table);
         $fields = [];
         if($sth->execute()){
             $result = $sth->fetchAll();
             foreach ($result as $item) {
-                $fields[] = $item['Field'];
+                $fields[$item['Field']] = NULL;
             }
         }
         else throw new HandlerController(new \Exception("Error when getting table fields"));
-        return implode(", ", $fields);
+//        return implode(", ", $fields);
+        return $fields;
     }
 
-    public function save($data)
+    public function save()
     {
-//        var_dump();exit;
         $fields = $this->getFields();
-        property_exists($data, 'qwerty');
+        $assoc = [];
+        foreach ($fields as $k => $v) {
+            if (property_exists($this, $k))
+                $assoc[$k] = $this->$k;
+            else $assoc[$k] = NULL;
+        }
+        $sql = 'INSERT INTO ' . $this->table;
+        $sql .= ' (' . implode(', ', array_keys($assoc)) . ') ';
+        $sql .= 'VALUES (' . implode(', ', array_fill(0, count(array_values($assoc)), '?')) . ')';
 
+        $sth = Configuration::getInstance()->connection->prepare($sql);
+        try{
+        $sth->execute(array_values($assoc));
+            return Configuration::getInstance()->connection->lastInsertId();
+        }catch(\PDOException $e){
+            throw new HandlerController($e);
+        }
     }
 
 
@@ -68,7 +82,7 @@ class Model
         }
         $sth = Configuration::getInstance()->connection->prepare("
         SELECT " . $fields . "
-        FROM " . $this->prefix . "_" . $this->table
+        FROM " . $this->table
             . $where
         );
 
@@ -84,7 +98,7 @@ class Model
     {
         $id = intval($id);
         $stmt = Configuration::getInstance()->connection->prepare('
-            SELECT * FROM ' . $this->prefix . $this->table . '
+            SELECT * FROM ' . $this->table . '
             WHERE ' . $this->idField . '=?');
         try {
             if ($stmt->execute([$id])){
@@ -96,4 +110,9 @@ class Model
         }
     }
 
+
+    public function validate()
+    {
+
+    }
 }
