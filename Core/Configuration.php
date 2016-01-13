@@ -125,13 +125,13 @@ LBR;
 <head>
     <meta charset="utf-8">
     <!-- Bootstrap -->
-    <link href="../../style/css/bootstrap.min.css" rel="stylesheet">
-    <link href="../../style/css/custom.css" rel="stylesheet">
+    <link href="../../templates/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../templates/css/custom.css" rel="stylesheet">
     <title>Profiler</title>
 </head>
-<script src="../../style/js/jquery-1.11.2.min.js"></script>
-<script src="../../style/js/bootstrap.min.js"></script>
-<script src="../../style/js/custom.js"></script>
+<script src="../../templates/js/jquery-1.11.2.min.js"></script>
+<script src="../../templates/js/bootstrap.min.js"></script>
+<script src="../../templates/js/custom.js"></script>
 <body>
 <nav class="navbar header navbar-inverse navbar-fixed-top">
     <div class="container">
