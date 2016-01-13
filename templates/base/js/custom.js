@@ -3,7 +3,7 @@
  */
 
 var sUrl_r = '/profiler/register';      // Url for registration
-var sUrl_a = '/profiler/auth';          // Url for authorization
+var sUrl_a = '/profiler';          // Url for authorization
 var Form;
 
 $(document).ready(function () {
@@ -56,6 +56,9 @@ function ajaxSubmit_c(s) {
                     else {
                         $('.auth_form').hide();
                         $('.logout-wrap').html('<div class = "error-text">'+sResponce.content+'</div>');
+                        if(sResponce.reload == "true"){
+                            location.reload();
+                        }
                         setTimeout("$('.logout-wrap').html(Form);", 3000);
                     }
                 }

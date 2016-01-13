@@ -18,6 +18,7 @@ class CabinetController extends ProfilerController
     public function __construct()
     {
         parent::__construct();
+        $this->view->title = "Cabinet";
     }
 
     private function __Clone()

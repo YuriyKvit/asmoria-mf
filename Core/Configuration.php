@@ -27,6 +27,7 @@ class Configuration
     private $dbName;
     private $dbUser;
     private $dbPass;
+    public $template = "base";
     public $connection;
     static $_instance;
 
@@ -81,95 +82,6 @@ class Configuration
             'salt' => "546546F.#@&!(&%bcch'>?<54/*-+784$^(YI",
         ];
         return password_hash($pass, PASSWORD_BCRYPT, $options);
-    }
-
-    public function getLoginBar()
-    {
-        $panelButton = ProfilerController::getInstance()->isAdmin ? AdministrationController::getInstance()->getButton() : "";
-        if (!$this->getLoggedId()) {
-            $login_bar = <<<LBR
-                <form class="navbar-form navbar-right auth_form" target="_self" name="auth_main" method="post"
-                      action="" enctype="multipart/form-data" onsubmit="ajaxSubmit_c('auth')">
-                    <div class="form-group">
-                        <input type="email" name="a_email" placeholder="Email" class="form-control" required/>
-                    </div>
-                    <div class="form-group">
-                        <input type="password" name="a_pass" placeholder="Password" class="form-control" required/>
-                    </div>
-                    <button type="submit" id="sbmt" name="submit" class="btn btn-success">Sign in</button>
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#asmo-register">
-                        Registration
-                    </button>
-                </form>;
-LBR;
-
-        } else {
-            $login_bar = <<<LBR
-<div class="navbar-right">
-<a class="btn btn-primary" href="http://{$_SERVER['HTTP_HOST']}/profiler/logout">Logout</a>
-<a href="http://{$_SERVER['HTTP_HOST']}/profiler/cabinet" class="btn btn-success"> Cabinet</a>
-$panelButton
-</div>
-LBR;
-
-        }
-        return $login_bar;
-    }
-
-    public function getHeader()
-    {
-
-        $header = <<<EOL
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <!-- Bootstrap -->
-    <link href="../../templates/css/bootstrap.min.css" rel="stylesheet">
-    <link href="../../templates/css/custom.css" rel="stylesheet">
-    <title>Profiler</title>
-</head>
-<script src="../../templates/js/jquery-1.11.2.min.js"></script>
-<script src="../../templates/js/bootstrap.min.js"></script>
-<script src="../../templates/js/custom.js"></script>
-<body>
-<nav class="navbar header navbar-inverse navbar-fixed-top">
-    <div class="container">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="http://{$_SERVER['HTTP_HOST']}"><b>Asmoria</b></a>
-        </div>
-        <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#contact">Contact</a></li>
-          </ul>
-        <div id="navbar" class="navbar-collapse collapse auth">
-            <div class="navbar-right logout-wrap">
-            {$this->getLoginBar()}
-            </div>
-        </div>
-        <!--/.navbar-collapse -->
-    </div>
-</nav>
-<div class="wrapper">
-
-EOL;
-        echo $header;
-
-    }
-
-    public function getFooter()
-    {
-        $footer = <<<FOT
-        <div class="push"></div>
-        </div>
-    <footer>
-        <h5><p>&copy; Asmoria corp 2015</p></h5>
-    </footer>
-    </body>
-FOT;
-        echo $footer;
-        exit;
     }
 }
 

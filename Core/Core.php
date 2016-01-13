@@ -187,7 +187,7 @@ EOD;
             throw new HandlerController(new \Exception('Cannot find file "'.$className.'" Try reload page...'));
         }
         if(!file_exists($classFile))
-            throw new \Asmoria\Modules\Handler\HandlerController(new \Exception("Wrong way"));
+            throw new HandlerController(new \Exception("Wrong way"));
         require_once($classFile);
 
         if (!class_exists($className, FALSE) && !interface_exists($className, FALSE) && !trait_exists($className, FALSE)) {

@@ -4,6 +4,7 @@ namespace Asmoria\Modules\Main;
 
 use \Asmoria\Core\Route;
 use \Asmoria\Core\Configuration;
+use Asmoria\Core\View;
 
 class MainController
 {
@@ -12,6 +13,7 @@ class MainController
     public function __Construct()
     {
         $this->Db = Configuration::getInstance();
+        $this->view = new View();
     }
 
     private function __Clone()
@@ -25,9 +27,7 @@ class MainController
     }
     function actionIndex()
     {
-        $this->Db->getHeader();
-        require_once "view/index.php";
-        $this->Db->getFooter();
+        $this->view->render();
     }
 
     public static function getInstance()

@@ -11,6 +11,7 @@ namespace Asmoria\Modules\Administration;
 use Asmoria\Core\Configuration;
 use Asmoria\Core\Controller;
 use Asmoria\Core\Route;
+use Asmoria\Core\View;
 use Asmoria\Modules\Handler\HandlerController;
 use Asmoria\Modules\Profiler\Models\ProfileModel;
 use Asmoria\Modules\Profiler\ProfilerController;
@@ -28,6 +29,8 @@ class AdministrationController extends Controller{
             throw new HandlerController(new \Exception("Page not found"));
         }
         parent::__construct();
+        $this->view = new View();
+        $this->view->title = "Administration";
     }
 
 
@@ -38,18 +41,12 @@ class AdministrationController extends Controller{
 
     public function actionIndex()
     {
-
         $this->view->render('index', ['classMap'=>$this->classMap]);
-
     }
 
     public function actionTest()
     {
-        echo $this->db->getHeader();
-        for($i=0; $i<50; $i++){
-            echo " <br> Index Here ";
-        }
-        echo $this->db->getFooter();
+        $this->view->render();
     }
 
     public function getButton()
