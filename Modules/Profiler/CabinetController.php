@@ -13,7 +13,6 @@ use Asmoria\Modules\Profiler\Models\ProfileModel;
  */
 class CabinetController extends ProfilerController
 {
-    static $_instance;
 
     public function __construct()
     {
@@ -26,14 +25,20 @@ class CabinetController extends ProfilerController
 
     }
 
-    public function test(){
-        echo "<pre>";
-        return new AclUsersModel();
+    public function actionTest(){
+        $conn = new \PDO('mysql:dbname=asmoria;host=127.0.0.1', 'root', '');
+
+//        $conn->exec('CREATE TABLE testIncrement ' .
+//            '(id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, name VARCHAR(50))');
+        $sth = $conn->prepare('INSERT INTO testIncrement (name) VALUES (:name)');
+        $sth->execute([':name' => 'foo']);
+        var_dump($conn->lastInsertId());
+//        $conn->exec('DROP TABLE testIncrement');
     }
 
     public function actionIndex()
     {
-        $this->view->render('index');
+        $this->view->render('cabinet', ['profile' => $this->getProfileInfo()]);
     }
 
 
@@ -42,11 +47,4 @@ class CabinetController extends ProfilerController
         return $model->profile;
     }
 
-    public static function getInstance()
-    {
-        if (!(self::$_instance instanceof self)) {
-            self::$_instance = new self();
-        }
-        return self::$_instance;
-    }
 }

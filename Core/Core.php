@@ -41,7 +41,7 @@ class Core
             },
             'only' => ['*.php'],
             'except' => [
-                '/index.php',
+                '/index.html',
                 '/Core.php',
                 '/.git/',
             ],

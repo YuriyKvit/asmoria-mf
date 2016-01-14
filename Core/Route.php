@@ -78,7 +78,7 @@ class Route
             } else {
                 $f = $this->namespace . '\\' . $this->controller_name;
             }
-            $controller = $f::getInstance();
+            $controller = new $f();
             $action = $this->action_prefix . $this->action_name;
             try {
                 if (method_exists($controller, $action)) {

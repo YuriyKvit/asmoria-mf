@@ -20,44 +20,58 @@ class Model
 
     public function __construct($id = NULL)
     {
-        $this->prefix ? $this->prefix = $this->prefix."_" : $this->prefix = "";
-        $this->table = $this->prefix.$this->table;
+        $this->prefix ? $this->prefix = $this->prefix . "_" : $this->prefix = "";
+        $this->table = $this->prefix . $this->table;
     }
 
 
     public function getFields()
     {
-        $sth = Configuration::getInstance()->connection->prepare("DESCRIBE ".$this->table);
+        $sth = Configuration::getInstance()->connection->prepare("DESCRIBE " . $this->table);
         $fields = [];
-        if($sth->execute()){
+        if ($sth->execute()) {
             $result = $sth->fetchAll();
             foreach ($result as $item) {
                 $fields[$item['Field']] = NULL;
             }
-        }
-        else throw new HandlerController(new \Exception("Error when getting table fields"));
+        } else throw new HandlerController(new \Exception("Error when getting table fields"));
 //        return implode(", ", $fields);
         return $fields;
     }
 
-    public function save()
+    public function save() // TODO: Optimize me
     {
         $fields = $this->getFields();
         $assoc = [];
         foreach ($fields as $k => $v) {
             if (property_exists($this, $k))
                 $assoc[$k] = $this->$k;
-            else $assoc[$k] = NULL;
+            else $assoc[$k] = "PASSED";
         }
         $sql = 'INSERT INTO ' . $this->table;
         $sql .= ' (' . implode(', ', array_keys($assoc)) . ') ';
         $sql .= 'VALUES (' . implode(', ', array_fill(0, count(array_values($assoc)), '?')) . ')';
 
+        if (!empty($assoc[$this->idField])) {
+            $fields = "";
+            foreach ($assoc as $k => $v) {
+                if ($v == "PASSED") {
+                    unset($assoc[$k]);
+                    continue;
+                }
+                $fields .= $k . " = :" . $k . ", ";
+            }
+            $fields = rtrim($fields, ", ");
+            $fields = str_replace($this->idField . " = :" . $this->idField . ", ", "", $fields);
+            $sql = 'UPDATE ' . $this->table;
+            $sql .= ' SET ' . $fields;
+            $sql .= ' WHERE ' . $this->idField . " = :" . $this->idField;
+        }
         $sth = Configuration::getInstance()->connection->prepare($sql);
-        try{
-        $sth->execute(array_values($assoc));
+        try {
+            $sth->execute($assoc);
             return Configuration::getInstance()->connection->lastInsertId();
-        }catch(\PDOException $e){
+        } catch (\PDOException $e) {
             throw new HandlerController($e);
         }
     }
@@ -101,10 +115,9 @@ class Model
             SELECT * FROM ' . $this->table . '
             WHERE ' . $this->idField . '=?');
         try {
-            if ($stmt->execute([$id])){
+            if ($stmt->execute([$id])) {
                 return $stmt->fetchObject(get_called_class());
-            }
-            else throw new HandlerController(new \Exception("No id field or wrong input parameters"));
+            } else throw new HandlerController(new \Exception("No id field or wrong input parameters"));
         } catch (\Exception $e) {
             return $e->getMessage();
         }

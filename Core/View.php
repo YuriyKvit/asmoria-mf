@@ -35,7 +35,7 @@ class View
             Route::$modules_dir . DIRECTORY_SEPARATOR .
             Route::$module . DIRECTORY_SEPARATOR .
             Route::$view_dir . DIRECTORY_SEPARATOR .
-            $view . ".php";
+            $view . ".html";
         if (file_exists($view)) {
             return $view;
         }

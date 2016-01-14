@@ -28,13 +28,6 @@ class ProfilerController extends Controller
         parent::__construct();
         if ($this->isAuthorized()) {
             $this->isAdmin = UsersRole::getInstance()->isAdmin($_SESSION['u_id']);
-//            if (isset($_POST['submit'])){
-//                $result['status'] = 'false';
-//                $result['content'] = "Reloading";
-//                $result['reload'] = "true";
-//                echo json_encode($result);
-//                exit;
-//            }
         }
         else $this->authorize();
         $this->view = new View();

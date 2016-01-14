@@ -32,7 +32,7 @@ class HandlerController extends \Exception
         if($this->json){
             die(json_encode(['status'=>false, 'content'=>self::$message_]));
         }
-        require_once"view/index.php";
+        require_once "view/index.html";
     }
 
 
@@ -41,7 +41,7 @@ class HandlerController extends \Exception
         if(strstr(self::$message_, 'SQLSTATE[')) {
 
         }
-            die(require_once "view/index.php");
+            die(require_once "view/index.html");
     }
 
 
@@ -50,7 +50,7 @@ class HandlerController extends \Exception
         if($this->json){
             die(json_encode(['status'=>false, 'content'=>self::$message_]));
         }
-       die(require_once"view/index.php");
+       die(require_once "view/index.html");
     }
 
     public function actionIndex()
