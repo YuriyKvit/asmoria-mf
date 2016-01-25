@@ -25,7 +25,7 @@ class Model
     }
 
 
-    public function getFields()
+    public function getFields($skip)
     {
         $sth = Configuration::getInstance()->connection->prepare("DESCRIBE " . $this->table);
         $fields = [];
@@ -35,13 +35,20 @@ class Model
                 $fields[$item['Field']] = NULL;
             }
         } else throw new HandlerController(new \Exception("Error when getting table fields"));
-//        return implode(", ", $fields);
+        if ($skip === TRUE)
+            unset($fields[$this->idField]);
         return $fields;
     }
 
-    public function save() // TODO: Optimize me
+    /**
+     * @param bool $skip for id field
+     * @return string
+     * @throws HandlerController
+     */
+
+    public function save($skip = true) // TODO: Optimize me
     {
-        $fields = $this->getFields();
+        $fields = $this->getFields($skip);
         $assoc = [];
         foreach ($fields as $k => $v) {
             if (property_exists($this, $k))
@@ -51,7 +58,7 @@ class Model
         $sql = 'INSERT INTO ' . $this->table;
         $sql .= ' (' . implode(', ', array_keys($assoc)) . ') ';
         $sql .= 'VALUES (' . implode(', ', array_fill(0, count(array_values($assoc)), '?')) . ')';
-
+        $assoc = array_values($assoc);
         if (!empty($assoc[$this->idField])) {
             $fields = "";
             foreach ($assoc as $k => $v) {

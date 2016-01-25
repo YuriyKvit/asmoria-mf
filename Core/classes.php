@@ -16,4 +16,10 @@ return [
 'Asmoria\Modules\Profiler\CabinetController' => ROOT_DIR . '/Modules/Profiler/CabinetController.php',
 'Asmoria\Modules\Profiler\Models\ProfileModel' => ROOT_DIR . '/Modules/Profiler/Models/ProfileModel.php',
 'Asmoria\Modules\Profiler\ProfilerController' => ROOT_DIR . '/Modules/Profiler/ProfilerController.php',
+'Asmoria\Modules\Socket\Handler' => ROOT_DIR . '/Modules/Socket/Handler.php',
+'Asmoria\Modules\Socket\Master' => ROOT_DIR . '/Modules/Socket/Master.php',
+'Asmoria\Modules\Socket\Server' => ROOT_DIR . '/Modules/Socket/Server.php',
+'Asmoria\Modules\Socket\SocketController' => ROOT_DIR . '/Modules/Socket/SocketController.php',
+'Asmoria\Modules\Socket\Worker' => ROOT_DIR . '/Modules/Socket/Worker.php',
+'Asmoria\index' => ROOT_DIR . '/index.php',
 ];

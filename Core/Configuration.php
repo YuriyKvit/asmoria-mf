@@ -47,7 +47,7 @@ class Configuration
             $this->connection = new \PDO('mysql:host=localhost;dbname=' . $this->dbName, $this->dbUser, $this->dbPass, array(\PDO::ATTR_PERSISTENT => true));
 
         } catch (\PDOException $e) {
-            Handler\HandlerController::getInstance($e)->dbError();
+            Handler\HandlerController::getInstance($e);
         }
     }
 

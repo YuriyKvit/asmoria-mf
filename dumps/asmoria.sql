@@ -28,8 +28,8 @@ CREATE TABLE `acl_roles` (
 -- ----------------------------
 -- Records of acl_roles
 -- ----------------------------
-INSERT INTO `acl_roles` VALUES ('1', 'ADMIN');
-INSERT INTO `acl_roles` VALUES ('2', 'USER');
+INSERT INTO `acl_roles` VALUES ('3', 'ADMIN');
+INSERT INTO `acl_roles` VALUES ('4', 'USER');
 
 -- ----------------------------
 -- Table structure for `acl_users_role`
@@ -43,7 +43,7 @@ CREATE TABLE `acl_users_role` (
 -- ----------------------------
 -- Records of acl_users_role
 -- ----------------------------
-INSERT INTO `acl_users_role` VALUES ('10', '2');
+INSERT INTO `acl_users_role` VALUES ('10', '4');
 
 -- ----------------------------
 -- Table structure for `profiles`

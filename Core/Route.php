@@ -14,18 +14,22 @@ class Route
     private $action_prefix = 'action';
     private $model_prefix = 'Model_';
     static $_instance;
-    public $namespace = ALIAS . "\\Modules\\Main";
+    public $namespace;
     public static $module;
     public static $modules_dir = "Modules";
     public static $view_dir = "view";
 
     public function __construct()
     {
+        if(!defined("DS")) {
+            define("DS", DIRECTORY_SEPARATOR);
+        }
+        $this->namespace =  "Asmoria\\"."Modules\\"."Main";
         $this->routes = explode('/', $_SERVER['REQUEST_URI']);
 
         if (count($this->routes) > 5) die('Method was not found!');
         if (!empty($this->routes[1])) {
-            $this->module_name = $this->routes[1];
+            $this->module_name = ucfirst($this->routes[1]);
             $this->default_controller = $this->module_name;
         } else {
             $this->module_name = $this->default_module;
@@ -63,10 +67,10 @@ class Route
             }
             if ($this->module_name !== $this->default_module) {
                 $controller_file = ucfirst($this->controller_name) . '.php';
-                $controller_path = "Modules/" . $this->module_name . "/" . $controller_file;
+                $controller_path = "Modules".DS . $this->module_name . DS . $controller_file;
                 if (!is_file($controller_path)) {
                     $this->controller_name = $this->default_controller . $this->controller_prefix;
-                    $controller_path = "Modules/" . $this->module_name . "/" . $this->controller_name . '.php';
+                    $controller_path = "Modules".DS . $this->module_name . DS . $this->controller_name . '.php';
                     $this->action_name = $this->routes[2];
                     $this->parameters = !empty($this->routes[3]) ? $this->routes[3] : NULL;
                 }

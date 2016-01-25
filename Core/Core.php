@@ -13,15 +13,18 @@ class Core
 
     private static $list = [];
 
-    public static $dirs = [
-        'Core' => ROOT_DIR . "\\Core",
-        'Modules' => ROOT_DIR . "\\Modules"
-    ];
+    public static $dirs = [];
+
 
     public static $namespace = "";
 
     public static function Create($root = null, $mapFile = null)
     {
+        self::$dirs = [
+            'Core' => ROOT_DIR . DIRECTORY_SEPARATOR . "Core",
+            'Modules' => ROOT_DIR . DIRECTORY_SEPARATOR . "Modules"
+        ];
+
         if ($root === null) {
             $root = ROOT_DIR;
         }
@@ -55,7 +58,7 @@ class Core
                 die("Something wrong: $file\n");
             }
             $path = str_replace('\\', '/', substr($file, strlen($root)));
-            $map[$path] = "'".ALIAS . substr(str_replace('/', '\\', $path), 0, -4) . "' => ROOT_DIR . '$path',";
+            $map[$path] = "'" . ALIAS . substr(str_replace('/', '\\', $path), 0, -4) . "' => ROOT_DIR . '$path',";
         }
         ksort($map);
         $map = implode("\n", $map);
@@ -120,7 +123,6 @@ EOD;
             $path = $dir . DIRECTORY_SEPARATOR . $file;
 
             if (self::checkDir($path) === TRUE && is_file($path)) {
-
                 $f = new \SplFileInfo($path);
                 if ($f->getExtension() == "php") {
                     self::$list[] = $path;
@@ -136,10 +138,12 @@ EOD;
 
     private static function checkDir($path)
     {
-        if (strpos($path, self::$dirs['Core']) === FALSE && strpos($path, self::$dirs['Modules']) === FALSE) {
-            return FALSE;
+        foreach (self::$dirs as $dir) {
+            if (strpos($path, $dir) !== FALSE) ;
+            return TRUE;
+            break;
         }
-        return TRUE;
+        return FALSE;
     }
 
 
@@ -184,9 +188,9 @@ EOD;
             }
         } else {
             \Asmoria::Create();
-            throw new HandlerController(new \Exception('Cannot find file "'.$className.'" Try reload page...'));
+            throw new HandlerController(new \Exception('Cannot find file "' . $className . '" Try reload page...'));
         }
-        if(!file_exists($classFile))
+        if (!file_exists($classFile))
             throw new HandlerController(new \Exception("Wrong way"));
         require_once($classFile);
 
