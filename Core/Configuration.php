@@ -12,10 +12,7 @@
 
 namespace Asmoria\Core;
 
-use \Asmoria\Core\Route;
-use Asmoria\Modules\Administration\AdministrationController;
 use Asmoria\Modules\Handler;
-use Asmoria\Modules\Profiler\ProfilerController;
 
 ini_set('memory_limit', '-1');
 define("ADMIN_ROLE", 3);
@@ -42,7 +39,6 @@ class Configuration
         $this->dbUser = "root";
         $this->dbPass = "";
         $this->connection = '';
-        ini_set('memory_limit', '128M');
         try {
             $this->connection = new \PDO('mysql:host=localhost;dbname=' . $this->dbName, $this->dbUser, $this->dbPass, array(\PDO::ATTR_PERSISTENT => true));
 

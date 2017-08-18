@@ -2,7 +2,6 @@
 
 namespace Asmoria\Core;
 
-//use Asmoria\Core\Configuration;
 use Asmoria\Modules\Handler\HandlerController;
 use Asmoria\Modules\Profiler\ProfilerController;
 use Asmoria\Modules\Administration\AdministrationController;

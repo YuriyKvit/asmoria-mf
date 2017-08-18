@@ -21,8 +21,8 @@ class Core
     public static function Create($root = null, $mapFile = null)
     {
         self::$dirs = [
-            'Core' => ROOT_DIR . DIRECTORY_SEPARATOR . "Core",
-            'Modules' => ROOT_DIR . DIRECTORY_SEPARATOR . "Modules"
+            'Core'    => ROOT_DIR . DIRECTORY_SEPARATOR . "Core",
+            'Modules' => ROOT_DIR . DIRECTORY_SEPARATOR . "Modules",
         ];
 
         if ($root === null) {
@@ -37,12 +37,13 @@ class Core
                 if (is_file($path)) {
                     $file = basename($path);
                     if ($file[0] < 'A' || $file[0] > 'Z') {
-                        return FALSE;
+                        return false;
                     }
                 }
+
                 return null;
             },
-            'only' => ['*.php'],
+            'only'   => ['*.php'],
             'except' => [
                 '/index.html',
                 '/Core.php',
@@ -69,18 +70,15 @@ return [
 $map
 ];
 EOD;
-        if (is_file($mapFile) && file_get_contents($mapFile) === $output) {
-//            echo "Nothing changed.\n";
-        } else {
+        if (!is_file($mapFile) || file_get_contents($mapFile) !== $output) {
             file_put_contents($mapFile, $output);
-//            echo "Class map saved in $mapFile\n";
         }
     }
 
     public static function makePath($path, $ds = DIRECTORY_SEPARATOR)
     {
         $path = rtrim(strtr($path, '/\\', $ds . $ds), $ds);
-        if (strpos($ds . $path, "{$ds}.") === FALSE && strpos($path, "{$ds}{$ds}") === FALSE) {
+        if (strpos($ds . $path, "{$ds}.") === false && strpos($path, "{$ds}{$ds}") === false) {
             return $path;
         }
 
@@ -88,13 +86,14 @@ EOD;
         foreach (explode($ds, $path) as $part) {
             if ($part === '..' && !empty($parts) && end($parts) !== '..') {
                 array_pop($parts);
-            } elseif ($part === '.' || $part === '' && !empty($parts)) {
+            } else if ($part === '.' || $part === '' && !empty($parts)) {
                 continue;
             } else {
                 $parts[] = $part;
             }
         }
         $path = implode($ds, $parts);
+
         return $path === '' ? '.' : $path;
     }
 
@@ -111,23 +110,23 @@ EOD;
         }
         $handle = opendir($dir);
 
-        if ($handle === FALSE) {
+        if ($handle === false) {
             die("Unable to open directory: $dir");
         }
 
-        while (($file = readdir($handle)) !== FALSE) {
+        while (($file = readdir($handle)) !== false) {
             if ($file === '.' || $file === '..') {
                 continue;
             }
 
             $path = $dir . DIRECTORY_SEPARATOR . $file;
 
-            if (self::checkDir($path) === TRUE && is_file($path)) {
+            if (self::checkDir($path) === true && is_file($path)) {
                 $f = new \SplFileInfo($path);
                 if ($f->getExtension() == "php") {
                     self::$list[] = $path;
                 }
-            } elseif (is_dir($path)) {
+            } else if (is_dir($path)) {
                 static::findFiles($path, $options);
             }
         }
@@ -139,11 +138,13 @@ EOD;
     private static function checkDir($path)
     {
         foreach (self::$dirs as $dir) {
-            if (strpos($path, $dir) !== FALSE) ;
-            return TRUE;
+            if (strpos($path, $dir) !== false) {
+                return true;
+            }
             break;
         }
-        return FALSE;
+
+        return false;
     }
 
 
@@ -154,7 +155,7 @@ EOD;
             return $alias;
         }
         $pos = strpos($alias, '/');
-        $root = $pos === FALSE ? $alias : substr($alias, 0, $pos);
+        $root = $pos === false ? $alias : substr($alias, 0, $pos);
         if (isset(static::$aliases[$root])) {
             if (is_string(static::$aliases[$root])) {
                 return $pos === false ? static::$aliases[$root] : static::$aliases[$root] . substr($alias, $pos);
@@ -169,7 +170,7 @@ EOD;
         if ($throwException) {
             die("Invalid path alias: $alias");
         } else {
-            return FALSE;
+            return false;
         }
     }
 
@@ -181,20 +182,22 @@ EOD;
             if ($classFile[0] === '@') {
                 $classFile = static::getAlias($classFile);
             }
-        } elseif (strpos($className, '\\') !== FALSE) {
-            $classFile = static::getAlias('@' . str_replace('\\', '/', $className) . '.php', FALSE);
-            if ($classFile === FALSE || !is_file($classFile)) {
+        } else if (strpos($className, '\\') !== false) {
+            $classFile = static::getAlias('@' . str_replace('\\', '/', $className) . '.php', false);
+            if ($classFile === false || !is_file($classFile)) {
                 return;
             }
         } else {
             \Asmoria::Create();
             throw new HandlerController(new \Exception('Cannot find file "' . $className . '" Try reload page...'));
         }
-        if (!file_exists($classFile))
+        if (!file_exists($classFile)) {
             throw new HandlerController(new \Exception("Wrong way"));
+        }
         require_once($classFile);
 
-        if (!class_exists($className, FALSE) && !interface_exists($className, FALSE) && !trait_exists($className, FALSE)) {
+        if (!class_exists($className, false) && !interface_exists($className, false) && !trait_exists($className,
+                false)) {
             die("<br>Unable to find '$className' in file: $classFile. Namespace missing?");
         }
     }

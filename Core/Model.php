@@ -18,7 +18,7 @@ class Model
     protected $idField = "id";
     public $id;
 
-    public function __construct($id = NULL)
+    public function __construct($id = null)
     {
         $this->prefix ? $this->prefix = $this->prefix . "_" : $this->prefix = "";
         $this->table = $this->prefix . $this->table;
@@ -32,10 +32,10 @@ class Model
         if ($sth->execute()) {
             $result = $sth->fetchAll();
             foreach ($result as $item) {
-                $fields[$item['Field']] = NULL;
+                $fields[$item['Field']] = null;
             }
         } else throw new HandlerController(new \Exception("Error when getting table fields"));
-        if ($skip === TRUE)
+        if ($skip === true)
             unset($fields[$this->idField]);
         return $fields;
     }
@@ -91,7 +91,7 @@ class Model
         if (is_array($fields)) {
             $fields = implode(", ", $fields);
         }
-        $values = NULL;
+        $values = null;
         if ($where) {
             $keys = array_keys($where);
             $values = array_values($where);

@@ -16,5 +16,4 @@ class Asmoria extends Asmoria\Core
 
 spl_autoload_register(['Asmoria', 'autoload'], true, true);
 Asmoria::$classMap = require('Core/classes.php');
-//Asmoria::Create();
 Asmoria\Core\Route::getInstance();
