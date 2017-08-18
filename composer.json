@@ -1,7 +1,7 @@
 {
   "name": "asmo/asmoria",
   "description": "Asmoria CMS for education ideas",
-  "version": "0.1.0",
+  "version": "0.0.0",
   "keywords": [
     "asmoria",
     "asmo",
@@ -35,7 +35,7 @@
   ],
   "extra": {
     "branch-alias": {
-      "dev-master": "0.1.x-dev"
+      "dev-master": "0.0.x-dev"
     }
   }
 }
