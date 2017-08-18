@@ -29,7 +29,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Asmoria\\": "asmoria/"
+      "Asmoria\\": ""
     }
   },
   "bin": [
