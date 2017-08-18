@@ -7,4 +7,4 @@ in developing ...
 # Install
 
 ```
-composer require "asmo/asmoria": "*"
+composer require asmo/asmoria
