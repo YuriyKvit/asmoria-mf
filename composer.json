@@ -1,7 +1,6 @@
 {
   "name": "asmo/asmoria",
   "description": "Asmoria CMS for education ideas",
-  "version": "0.0.0",
   "keywords": [
     "asmoria",
     "asmo",
@@ -29,9 +28,16 @@
     "bower-asset/jquery": "2.2.*@stable | 2.1.*@stable | 1.11.*@stable | 1.12.*@stable"
   },
   "autoload": {
-    "psr-4": {"Asmoria\\": ""}
+    "psr-4": {
+      "Asmoria\\": ""
+    }
   },
   "bin": [
     "asmoria"
-  ]
+  ],
+  "extra": {
+    "branch-alias": {
+      "dev-master": "0.0.x-dev"
+    }
+  }
 }
