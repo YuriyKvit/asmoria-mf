@@ -7,7 +7,7 @@ define('ROOT_DIR', dirname(__FILE__));
 define('ROOT_URL', "http://".$_SERVER['HTTP_HOST']);
 define('ALIAS', 'Asmoria');
 define('DS', DIRECTORY_SEPARATOR);
-require_once('./Core/Core.php');
+require_once(ROOT_DIR . DS . 'Core/Core.php');
 
 class Asmoria extends Asmoria\Core
 {
